@@ -341,7 +341,7 @@ export default function Home({ onCreateRoom, onJoinRoom, error, onAchievementUnl
                     <label style={{ fontSize: "0.85rem", color: "var(--text-muted)", display: "block", marginBottom: "10px" }}>
                       Selecione um Emoji ou digite um abaixo:
                     </label>
-                    <div style={{ display: "grid", gridTemplateColumns: "repeat(8, 1fr)", gap: "8px", marginBottom: "15px" }}>
+                    <div className="avatar-emoji-grid">
                       {["👽", "🤖", "🦊", "🦁", "👻", "🥑", "🍕", "🚀", "🐱", "🐼", "🐸", "👑", "🔥", "💎", "🎮", "❤️"].map((em) => (
                         <button
                           key={em}
@@ -391,7 +391,7 @@ export default function Home({ onCreateRoom, onJoinRoom, error, onAchievementUnl
                     <label style={{ fontSize: "0.85rem", color: "var(--text-muted)", display: "block", marginBottom: "10px" }}>
                       Escolha uma Foto Cyberpunk ou faça Upload:
                     </label>
-                    <div style={{ display: "flex", gap: "12px", marginBottom: "15px" }}>
+                    <div className="avatar-photo-grid">
                       {[
                         { name: "Neko", path: "/assets/avatars/cyber_neko.png" },
                         { name: "Hacker", path: "/assets/avatars/cyber_hacker.png" },

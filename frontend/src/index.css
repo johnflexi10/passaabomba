@@ -186,17 +186,35 @@ body {
   flex-direction: column;
   gap: 30px;
 }
+@media (max-width: 480px) {
+  .home-container {
+    padding: 20px 12px;
+    gap: 20px;
+  }
+}
 
 .home-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
+@media (max-width: 600px) {
+  .home-header {
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+  }
+}
 
 .logo-section {
   display: flex;
   align-items: center;
   gap: 12px;
+}
+@media (max-width: 600px) {
+  .logo-section {
+    justify-content: center;
+  }
 }
 .logo-section h1 {
   font-family: var(--font-primary);
@@ -207,9 +225,19 @@ body {
   -webkit-text-fill-color: transparent;
   letter-spacing: -1px;
 }
+@media (max-width: 600px) {
+  .logo-section h1 {
+    font-size: 1.7rem;
+  }
+}
 .bomb-logo-icon {
   font-size: 2.4rem;
   animation: pulse-bomb 2s infinite alternate ease-in-out;
+}
+@media (max-width: 600px) {
+  .bomb-logo-icon {
+    font-size: 1.9rem;
+  }
 }
 @keyframes pulse-bomb {
   0% { transform: scale(0.9) rotate(-10deg); }
@@ -233,6 +261,18 @@ body {
   gap: 12px;
   border-bottom: 2px solid hsla(0, 0%, 100%, 0.05);
   padding-bottom: 8px;
+}
+@media (max-width: 768px) {
+  .home-tabs {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .home-tabs button {
+    padding: 8px 12px !important;
+    font-size: 0.92rem !important;
+    flex-grow: 1;
+    justify-content: center;
+  }
 }
 .home-tabs button {
   background: transparent;
@@ -322,7 +362,31 @@ body {
   font-size: 0.95rem;
   margin-bottom: 24px;
 }
+/* Seleção de Avatar */
+.avatar-emoji-grid {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 8px;
+  margin-bottom: 15px;
+}
+@media (max-width: 480px) {
+  .avatar-emoji-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
 
+.avatar-photo-grid {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+}
+@media (max-width: 480px) {
+  .avatar-photo-grid {
+    gap: 8px;
+    justify-content: center;
+  }
+}
 /* Formulário de Configuração */
 .config-form {
   display: flex;
