@@ -2255,6 +2255,14 @@ img, svg, canvas, input, select, textarea {
     margin-bottom: 10px !important;
   }
 
+  /* Formulário de entrada em sala */
+  .room-code-input {
+    font-size: 1.4rem !important;
+    padding: 10px !important;
+    letter-spacing: 2px !important;
+    border-radius: 8px !important;
+  }
+
   /* Arena de Jogo: elipse ajustada e compactação de cartas */
   :root {
     --ellipse-rx: 31% !important;
