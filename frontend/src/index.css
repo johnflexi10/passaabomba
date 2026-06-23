@@ -352,6 +352,12 @@ body {
   }
 }
 
+.action-card {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+}
 .action-card h3 {
   font-size: 1.4rem;
   font-weight: 700;
@@ -552,6 +558,9 @@ body {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
 }
 .room-code-input {
   background: var(--bg-darker);
@@ -565,11 +574,19 @@ body {
   text-transform: uppercase;
   letter-spacing: 4px;
   transition: all 0.3s ease;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
 }
 .room-code-input:focus {
   outline: none;
   border-color: var(--neon-blue);
   background: hsla(190, 100%, 48%, 0.05);
+}
+.join-form .btn-neon {
+  width: 100% !important;
+  box-sizing: border-box !important;
 }
 
 /* Loja de Skins */
