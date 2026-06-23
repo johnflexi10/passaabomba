@@ -516,11 +516,6 @@ export default function GameRoom({ socket, roomCode, room, playerId, onLeave }) 
 
                       {isMyTurn ? (
                         <form onSubmit={handleWordSubmit} className="center-word-form">
-                          {room.lastWord && (
-                            <div className="last-word-bubble" style={{ marginBottom: "6px" }}>
-                              <strong>{room.lastWordPlayer}</strong> disse: <span className="last-word-val">"{room.lastWord}"</span> ✔️
-                            </div>
-                          )}
                           <div className="input-feedback-wrapper">
                             <input
                               type="text"
@@ -546,16 +541,7 @@ export default function GameRoom({ socket, roomCode, room, playerId, onLeave }) 
                             {/* Corretor desativado a pedido do usuário */}
                           </div>
                         </form>
-                      ) : (
-                        <div className="center-waiting-turn" style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
-                          {room.lastWord && (
-                            <div className="last-word-bubble">
-                              <strong>{room.lastWordPlayer}</strong> disse: <span className="last-word-val">"{room.lastWord}"</span> ✔️
-                            </div>
-                          )}
-                          <p>Vez de <strong>{currentHolder.name || "Aguardando"}</strong> 💣</p>
-                        </div>
-                      )}
+                      ) : null}
 
                       {/* Painel de Itens no Modo Caos */}
                       {room.config?.gameMode === "chaos_items" && (
@@ -771,6 +757,26 @@ export default function GameRoom({ socket, roomCode, room, playerId, onLeave }) 
                 </div>
               );
             })}
+
+            {/* ZONA 3 — Mensagens Flutuantes (abaixo do círculo, sem invadir avatares) */}
+            <div className="arena-message-layer">
+              {room.state === "ACTIVE" && room.lastWord && (
+                <div className="arena-msg-last-word">
+                  <strong>{room.lastWordPlayer}</strong> disse:{" "}
+                  <span className="last-word-val">"{room.lastWord}"</span> ✔️
+                </div>
+              )}
+              {room.state === "ACTIVE" && !isMyTurn && (
+                <div className="arena-msg-turn">
+                  Vez de <strong>{currentHolder.name || "Aguardando"}</strong> 💣
+                </div>
+              )}
+              {room.state === "ACTIVE" && isMyTurn && (
+                <div className="arena-msg-turn arena-msg-my-turn">
+                  💣 Sua vez!
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Rodapé: Controles de início/próxima rodada para o Host (apenas fora do ACTIVE) */}
