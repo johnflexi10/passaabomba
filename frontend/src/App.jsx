@@ -6,9 +6,11 @@ import GameRoom from "./components/GameRoom";
 // Resolve a URL do servidor backend dinamicamente
 // Se for localhost no navegador, conecta a localhost:3000. 
 // Se for acessado por IP local (celular), conecta ao IP da máquina na porta 3000.
-const BACKEND_URL = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
-  ? "http://localhost:3000"
-  : `${window.location.protocol}//${window.location.hostname}:3000`;
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || (
+  window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
+    ? "http://localhost:3000"
+    : `${window.location.protocol}//${window.location.hostname}:3000`
+);
 
 export default function App() {
   const [socket, setSocket] = useState(null);

@@ -72,9 +72,11 @@ export default function Home({ onCreateRoom, onJoinRoom, error, onAchievementUnl
   const [globalRanking, setGlobalRanking] = useState([]);
   const [loadingRanking, setLoadingRanking] = useState(false);
 
-  const BACKEND_URL = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
-    ? "http://localhost:3000"
-    : `${window.location.protocol}//${window.location.hostname}:3000`;
+  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || (
+    window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
+      ? "http://localhost:3000"
+      : `${window.location.protocol}//${window.location.hostname}:3000`
+  );
 
   useEffect(() => {
     if (activeTab === "stats") {
