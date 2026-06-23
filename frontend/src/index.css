@@ -49,12 +49,18 @@
   box-sizing: border-box;
 }
 
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+  position: relative;
+  margin: 0;
+  padding: 0;
+}
 body {
   font-family: var(--font-primary);
   background: radial-gradient(circle at 50% 50%, var(--bg-dark) 0%, var(--bg-darker) 100%);
   color: var(--text-light);
   min-height: 100vh;
-  overflow-x: hidden;
   line-height: 1.5;
 }
 
@@ -79,6 +85,8 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  overflow-x: hidden;
+  max-width: 100%;
 }
 
 .text-center { text-align: center; }
@@ -570,6 +578,8 @@ body {
   gap: 15px;
   min-height: 100vh;
   overflow-y: auto;
+  overflow-x: hidden;
+  max-width: 100%;
 }
 
 .room-navbar {
@@ -632,6 +642,7 @@ body {
   min-height: 670px; /* Evita encolhimento vertical que esconde os botões */
   position: relative;
   overflow: hidden;
+  overflow-x: hidden;
   border: 1px solid var(--panel-border);
   border-radius: 16px;
   background: hsla(240, 16%, 10%, 0.45);
@@ -894,7 +905,7 @@ body {
   }
   .word-textbox.center-textbox {
     padding: 8px 12px;
-    font-size: 0.9rem;
+    font-size: 16px !important; /* Impede zoom automático do navegador no mobile */
   }
 }
 
@@ -1289,7 +1300,18 @@ body {
 /* Responsividade de altura para o layout circular */
 @media (max-width: 768px) {
   .room-layout-wrapper {
-    min-height: 600px; /* Altura mínima reduzida no mobile */
+    min-height: 520px; /* Altura mínima reduzida no mobile */
+  }
+  .arena-circle-container {
+    min-height: 400px;
+  }
+}
+@media (max-width: 480px) {
+  .room-layout-wrapper {
+    min-height: 480px;
+  }
+  .arena-circle-container {
+    min-height: 370px !important;
   }
 }
 
