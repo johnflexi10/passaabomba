@@ -2282,23 +2282,23 @@ img, svg, canvas, input, select, textarea {
 
   /* Arena de Jogo: elipse ajustada e compactação de cartas */
   :root {
-    --ellipse-rx: 31% !important;
-    --ellipse-ry: 34% !important;
-    --card-width: 64px !important;
-    --card-height: 74px !important;
-    --card-half-width: 32px !important;
-    --card-half-height: 37px !important;
+    --ellipse-rx: 34% !important;
+    --ellipse-ry: 33% !important;
+    --card-width: 68px !important;
+    --card-height: 78px !important;
+    --card-half-width: 34px !important;
+    --card-half-height: 39px !important;
   }
   
   .slot-avatar-frame {
-    width: 42px !important;
-    height: 42px !important;
+    width: 44px !important;
+    height: 44px !important;
     margin-bottom: 22px !important;
     border-width: 1.5px !important;
   }
   
   .slot-avatar-emoji-val {
-    font-size: 1.6rem !important;
+    font-size: 1.7rem !important;
   }
   
   .slot-label-capsule {
@@ -2308,25 +2308,32 @@ img, svg, canvas, input, select, textarea {
   }
   
   .slot-name {
-    font-size: 0.65rem !important;
+    font-size: 0.72rem !important;
   }
   
   .slot-score {
-    font-size: 0.6rem !important;
+    font-size: 0.65rem !important;
   }
 
+  /* Dimensionamento do círculo da bomba central no mobile (35% a 45%) */
   .center-card-wrapper {
-    width: 210px !important;
-    height: 210px !important;
+    width: 45vw !important;
+    height: 45vw !important;
+    min-width: 140px !important;
+    min-height: 140px !important;
+    max-width: 190px !important;
+    max-height: 190px !important;
+    padding: 3px !important;
   }
   
   .center-bomb-container {
-    width: 65px !important;
-    height: 65px !important;
+    width: 50px !important;
+    height: 50px !important;
+    margin-bottom: 2px !important;
   }
   
   .center-theme-text {
-    font-size: 0.95rem !important;
+    font-size: 0.9rem !important;
   }
   
   .center-info-content {
@@ -2336,6 +2343,167 @@ img, svg, canvas, input, select, textarea {
   .letter-badge {
     padding: 4px 10px !important;
     font-size: 0.8rem !important;
+  }
+
+  /* Adaptações do cabeçalho de status da sala */
+  .room-navbar {
+    flex-direction: column !important;
+    gap: 10px !important;
+    padding: 10px !important;
+    align-items: stretch !important;
+  }
+  .room-nav-info {
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    width: 100% !important;
+  }
+  .room-code-badge {
+    padding: 4px 8px !important;
+    font-size: 0.8rem !important;
+  }
+  .room-nav-actions {
+    justify-content: center !important;
+    gap: 12px !important;
+    width: 100% !important;
+  }
+
+  /* Remoção de altura mínima do PC e responsividade de layout da arena */
+  .room-layout-wrapper {
+    min-height: auto !important;
+    height: auto !important;
+    flex-grow: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow-y: auto !important;
+  }
+  .game-arena-wrapper {
+    padding: 10px !important;
+    flex-grow: 1 !important;
+    justify-content: flex-start !important;
+    min-height: auto !important;
+  }
+  .arena-circle-container {
+    min-height: 320px !important;
+    height: 68vw !important;
+    max-height: 420px !important;
+  }
+
+  /* Forçar empilhamento vertical de 100% nos controles do Host */
+  .arena-footer-controls {
+    padding: 10px !important;
+    margin-top: 10px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  .host-start-panel {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 10px !important;
+    width: 100% !important;
+  }
+  .theme-selection {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 8px !important;
+    width: 100% !important;
+  }
+  .theme-selection > div {
+    flex: 1 1 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+  .host-start-panel button {
+    width: 100% !important;
+    padding: 12px !important;
+    font-size: 0.9rem !important;
+    margin: 0 !important;
+  }
+}
+
+/* --- MOBILE SLATE (Até 480px) --- */
+@media (max-width: 480px) {
+  :root {
+    --ellipse-rx: 31% !important;
+    --ellipse-ry: 31% !important;
+    --card-width: 58px !important;
+    --card-height: 68px !important;
+    --card-half-width: 29px !important;
+    --card-half-height: 34px !important;
+  }
+  .slot-avatar-frame {
+    width: 36px !important;
+    height: 36px !important;
+    margin-bottom: 18px !important;
+  }
+  .slot-avatar-emoji-val {
+    font-size: 1.4rem !important;
+  }
+  .slot-label-capsule {
+    height: 26px !important;
+    border-radius: 4px !important;
+  }
+  .slot-name {
+    font-size: 0.65rem !important;
+  }
+  .slot-score {
+    display: none !important;
+  }
+  .center-card-wrapper {
+    width: 45vw !important;
+    height: 45vw !important;
+    min-width: 130px !important;
+    min-height: 130px !important;
+    max-width: 170px !important;
+    max-height: 170px !important;
+  }
+}
+
+/* --- MICRO MOBILE (Até 390px) --- */
+@media (max-width: 390px) {
+  :root {
+    --ellipse-rx: 29% !important;
+    --ellipse-ry: 27% !important;
+    --card-width: 52px !important;
+    --card-height: 62px !important;
+    --card-half-width: 26px !important;
+    --card-half-height: 31px !important;
+  }
+  .slot-avatar-frame {
+    width: 30px !important;
+    height: 30px !important;
+    margin-bottom: 15px !important;
+  }
+  .slot-avatar-emoji-val {
+    font-size: 1.15rem !important;
+  }
+  .slot-label-capsule {
+    height: 20px !important;
+    border-radius: 4px !important;
+  }
+  .slot-name {
+    font-size: 0.58rem !important;
+  }
+  .slot-score {
+    display: none !important;
+  }
+  .center-card-wrapper {
+    width: 42vw !important;
+    height: 42vw !important;
+    min-width: 120px !important;
+    min-height: 120px !important;
+  }
+  .center-theme-text {
+    font-size: 0.8rem !important;
+  }
+  .center-bomb-container {
+    width: 40px !important;
+    height: 40px !important;
+  }
+  .ink-splat {
+    width: 32px !important;
+    height: 32px !important;
   }
 }
 
