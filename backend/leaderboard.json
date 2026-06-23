@@ -1,0 +1,23 @@
+[
+  {
+    "name": "HostTester",
+    "score": 1225,
+    "roundsPlayed": 38,
+    "explosions": 19,
+    "survivalRate": 50
+  },
+  {
+    "name": "GuestTester",
+    "score": 1200,
+    "roundsPlayed": 38,
+    "explosions": 19,
+    "survivalRate": 50
+  },
+  {
+    "name": "john",
+    "score": 20,
+    "roundsPlayed": 8,
+    "explosions": 4,
+    "survivalRate": 50
+  }
+]

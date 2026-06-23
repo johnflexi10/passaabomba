@@ -1,0 +1,16 @@
+{
+  "short_name": "Passa Bomba",
+  "name": "Passa a Bomba - Jogo Multiplayer",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": ".",
+  "background_color": "#08080c",
+  "theme_color": "#ff007f",
+  "display": "standalone",
+  "orientation": "portrait"
+}
