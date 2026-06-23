@@ -634,6 +634,126 @@ body {
   }
 }
 
+/* Dinâmica por Quantidade de Jogadores (Player Count Scaling) */
+/* 6 a 9 jogadores: Compactação Média */
+@media (min-width: 769px) {
+  .players-count-md {
+    --card-width: 90px;
+    --card-height: 100px;
+    --card-half-width: 45px;
+    --card-half-height: 50px;
+  }
+  .players-count-md .slot-avatar-frame {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 28px;
+  }
+  .players-count-md .slot-avatar-emoji-val {
+    font-size: 1.9rem;
+  }
+  .players-count-md .slot-label-capsule {
+    height: 38px;
+  }
+}
+@media (max-width: 768px) {
+  .players-count-md {
+    --card-width: 68px;
+    --card-height: 80px;
+    --card-half-width: 34px;
+    --card-half-height: 40px;
+  }
+  .players-count-md .slot-avatar-frame {
+    width: 44px;
+    height: 44px;
+    margin-bottom: 24px;
+  }
+  .players-count-md .slot-avatar-emoji-val {
+    font-size: 1.7rem;
+  }
+  .players-count-md .slot-label-capsule {
+    height: 32px;
+    border-radius: 6px;
+  }
+  .players-count-md .slot-name {
+    font-size: 0.72rem;
+  }
+  .players-count-md .slot-score {
+    font-size: 0.65rem;
+  }
+  .players-count-md .ink-splat {
+    width: 46px;
+    height: 46px;
+  }
+}
+
+/* 10+ jogadores: Compactação Máxima e Ajuste de Elipse */
+@media (min-width: 769px) {
+  .players-count-lg {
+    --card-width: 75px;
+    --card-height: 85px;
+    --card-half-width: 37.5px;
+    --card-half-height: 42.5px;
+    --ellipse-rx: 44%;
+    --ellipse-ry: 40%;
+  }
+  .players-count-lg .slot-avatar-frame {
+    width: 42px;
+    height: 42px;
+    margin-bottom: 22px;
+  }
+  .players-count-lg .slot-avatar-emoji-val {
+    font-size: 1.6rem;
+  }
+  .players-count-lg .slot-label-capsule {
+    height: 32px;
+  }
+  .players-count-lg .slot-name {
+    font-size: 0.7rem;
+  }
+  .players-count-lg .slot-score {
+    font-size: 0.65rem;
+  }
+}
+@media (max-width: 768px) {
+  .players-count-lg {
+    --card-width: 58px;
+    --card-height: 70px;
+    --card-half-width: 29px;
+    --card-half-height: 35px;
+    --ellipse-rx: 38%;
+    --ellipse-ry: 37%;
+  }
+  .players-count-lg .slot-avatar-frame {
+    width: 36px;
+    height: 36px;
+    margin-bottom: 18px;
+  }
+  .players-count-lg .slot-avatar-emoji-val {
+    font-size: 1.4rem;
+  }
+  .players-count-lg .slot-label-capsule {
+    height: 26px;
+    border-radius: 4px;
+  }
+  .players-count-lg .slot-name {
+    font-size: 0.65rem;
+  }
+  .players-count-lg .slot-score {
+    display: none;
+  }
+  .players-count-lg .ink-splat {
+    width: 38px;
+    height: 38px;
+  }
+  .players-count-lg .slot-online-dot {
+    width: 4px;
+    height: 4px;
+    top: 2px;
+    left: 2px;
+  }
+}
+
+
 .gameroom-container {
   flex-grow: 1;
   display: flex;
@@ -1361,6 +1481,11 @@ body {
   text-shadow: 0 0 8px var(--neon-yellow-glow);
 }
 
+/* Painel Esquerdo com Regras e Configurações (Escondido por padrão) */
+.room-info-panel {
+  display: none;
+}
+
 /* Responsividade de altura para o layout circular */
 @media (max-width: 768px) {
   .room-layout-wrapper {
@@ -1378,6 +1503,268 @@ body {
     min-height: 370px !important;
   }
 }
+
+/* Estado de Teclado Ativo / Viewport reduzido no Mobile (max-width: 768px) */
+@media (max-width: 768px) {
+  .gameroom-container.keyboard-active {
+    padding: 6px !important;
+    gap: 6px !important;
+    justify-content: flex-start !important;
+  }
+  
+  .gameroom-container.keyboard-active .room-navbar {
+    padding: 6px 12px !important;
+    border-radius: 6px;
+    margin-bottom: 2px;
+  }
+  
+  .gameroom-container.keyboard-active .sidebar-toggle-btn,
+  .gameroom-container.keyboard-active .room-nav-actions {
+    display: none !important;
+  }
+
+  .gameroom-container.keyboard-active .room-navbar .room-nav-info {
+    font-size: 0.8rem;
+    gap: 8px;
+  }
+
+  .gameroom-container.keyboard-active .room-layout-wrapper {
+    min-height: 340px !important;
+    height: auto !important;
+    border-radius: 8px;
+  }
+
+  .gameroom-container.keyboard-active .game-arena-wrapper {
+    padding: 8px !important;
+  }
+
+  .gameroom-container.keyboard-active .arena-circle-container {
+    min-height: 250px !important;
+  }
+
+  .gameroom-container.keyboard-active .center-card-wrapper {
+    width: 170px !important;
+    height: 170px !important;
+    padding: 3px !important;
+    box-shadow: 0 0 15px var(--neon-pink-glow) !important;
+  }
+
+  .gameroom-container.keyboard-active .center-bomb-container {
+    width: 45px !important;
+    height: 45px !important;
+    margin-bottom: 2px !important;
+  }
+
+  .gameroom-container.keyboard-active .center-theme-text {
+    font-size: 0.82rem !important;
+    margin: 2px 0 !important;
+    max-width: 90%;
+  }
+
+  .gameroom-container.keyboard-active .theme-sub {
+    display: none !important;
+  }
+
+  .gameroom-container.keyboard-active .letter-badge {
+    padding: 2px 8px !important;
+    font-size: 0.72rem !important;
+    border-width: 1px !important;
+  }
+
+  .gameroom-container.keyboard-active .center-word-form {
+    margin-top: 2px !important;
+    width: 95%;
+  }
+
+  .gameroom-container.keyboard-active .word-textbox.center-textbox {
+    padding: 4px 8px !important;
+    font-size: 16px !important; /* Mantém 16px para evitar auto-zoom em iOS */
+    border-radius: 12px !important;
+    border-width: 1px !important;
+  }
+
+  .gameroom-container.keyboard-active .center-waiting-turn {
+    margin-top: 2px !important;
+    font-size: 0.72rem !important;
+    flex-direction: row !important;
+    gap: 4px !important;
+  }
+
+  .gameroom-container.keyboard-active .last-word-bubble {
+    display: none !important;
+  }
+
+  .gameroom-container.keyboard-active .chaos-items-tray {
+    display: none !important;
+  }
+
+  .gameroom-container.keyboard-active .arena-footer-controls {
+    display: none !important;
+  }
+
+  /* Compactar jogadores no modo teclado ativo */
+  .gameroom-container.keyboard-active {
+    --ellipse-rx: 34% !important;
+    --ellipse-ry: 32% !important;
+    --card-width: 54px !important;
+    --card-height: 64px !important;
+    --card-half-width: 27px !important;
+    --card-half-height: 32px !important;
+  }
+
+  .gameroom-container.keyboard-active .slot-avatar-frame {
+    width: 32px !important;
+    height: 32px !important;
+    margin-bottom: 16px !important;
+    border-width: 1px !important;
+  }
+
+  .gameroom-container.keyboard-active .slot-avatar-emoji-val {
+    font-size: 1.2rem !important;
+  }
+
+  .gameroom-container.keyboard-active .slot-label-capsule {
+    height: 24px !important;
+    border-radius: 4px !important;
+    width: 100% !important;
+  }
+
+  .gameroom-container.keyboard-active .slot-name {
+    font-size: 0.6rem !important;
+  }
+
+  .gameroom-container.keyboard-active .slot-score {
+    display: none !important;
+  }
+}
+
+/* --- DESKTOP 3-COLUMN SPLIT-SCREEN LAYOUT --- */
+@media (min-width: 1025px) {
+  .room-layout-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: space-between;
+    min-height: 600px;
+    height: calc(100vh - 120px);
+  }
+
+  .game-arena-wrapper {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+    min-width: 0;
+  }
+
+  .room-info-panel {
+    display: flex;
+    flex-direction: column;
+    width: 280px;
+    flex-shrink: 0;
+    background: var(--panel-bg);
+    border-right: 1px solid var(--panel-border);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    overflow: hidden;
+    height: 100%;
+  }
+
+  .info-panel-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px;
+    border-bottom: 1px solid hsla(0, 0%, 100%, 0.05);
+    flex-shrink: 0;
+  }
+
+  .info-panel-header h3 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--neon-blue);
+    text-shadow: 0 0 8px var(--neon-blue-glow);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .info-panel-content {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .info-section {
+    background: hsla(240, 16%, 6%, 0.45);
+    border: 1px solid var(--panel-border);
+    border-radius: 8px;
+    padding: 12px;
+  }
+
+  .info-section h4 {
+    margin: 0 0 6px 0;
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--neon-pink);
+    text-shadow: 0 0 8px var(--neon-pink-glow);
+  }
+
+  .info-section p {
+    margin: 0;
+    font-size: 0.8rem;
+    line-height: 1.4;
+    color: var(--text-muted);
+  }
+
+  .info-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+
+  .info-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .info-item strong {
+    color: var(--text-light);
+  }
+
+  /* Force used words sidebar to stay persistently open on desktop */
+  .room-sidebar-panel {
+    display: flex !important;
+    position: relative !important;
+    transform: none !important;
+    width: 280px !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    border-left: 1px solid var(--panel-border) !important;
+  }
+
+  .room-sidebar-panel.closed {
+    width: 280px !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    border-left: 1px solid var(--panel-border) !important;
+  }
+
+  /* Hide sidebar toggle button on desktop */
+  .sidebar-toggle-btn {
+    display: none !important;
+  }
+}
+
 
 /* Overlay de anúncio do tema no início da rodada */
 .round-start-overlay {

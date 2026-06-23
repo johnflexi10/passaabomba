@@ -12,6 +12,7 @@ export default function GameRoom({ socket, roomCode, room, playerId, onLeave }) 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
+  const [isInputFocused, setIsInputFocused] = useState(false);
 
   // Categoria e Letra escolhidas no painel do host (Adedonha)
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -366,8 +367,16 @@ export default function GameRoom({ socket, roomCode, room, playerId, onLeave }) 
 
 
 
+  const playerLength = activePlayers.length;
+  let playersCountClass = "players-count-sm";
+  if (playerLength >= 10) {
+    playersCountClass = "players-count-lg";
+  } else if (playerLength >= 6) {
+    playersCountClass = "players-count-md";
+  }
+
   return (
-    <div className="gameroom-container">
+    <div className={`gameroom-container ${playersCountClass} ${isInputFocused ? "keyboard-active" : ""}`}>
       {/* Overlay de anúncio de início de rodada */}
       {showStartAnnouncement && room.currentTheme && (
         <div className="round-start-overlay">
@@ -407,7 +416,7 @@ export default function GameRoom({ socket, roomCode, room, playerId, onLeave }) 
         
         <div className="room-nav-actions">
           <button
-            className="btn-icon"
+            className="btn-icon sidebar-toggle-btn"
             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
             title="Palavras Usadas"
           >
@@ -424,6 +433,59 @@ export default function GameRoom({ socket, roomCode, room, playerId, onLeave }) 
 
       {/* Conteúdo principal */}
       <div className="room-layout-wrapper">
+        {/* Painel Esquerdo com Regras e Configurações */}
+        <aside className="room-info-panel">
+          <div className="info-panel-header">
+            <HelpCircle size={16} className="icon-blue" />
+            <h3>Regras & Modos</h3>
+          </div>
+          <div className="info-panel-content">
+            <div className="info-section">
+              <h4>
+                {room.config?.gameMode === "classic" ? "Modo Clássico 💣" :
+                 room.config?.gameMode === "chaos_items" ? "Modo Caos 🛍️" :
+                 room.config?.gameMode === "time_attack" ? "Contra o Tempo ⏳" : "Modo de Jogo"}
+              </h4>
+              <p>
+                {room.config?.gameMode === "classic" && "Digite uma palavra que pertença ao tema e comece com a letra indicada antes que a bomba exploda!"}
+                {room.config?.gameMode === "chaos_items" && "Acerte palavras para ganhar moedas. Use itens da loja como o Escudo (50💰) para evitar a explosão!"}
+                {room.config?.gameMode === "time_attack" && "Você tem um cronômetro individual de 30 segundos. Acerte uma palavra para resetar seu tempo, ou exploda!"}
+              </p>
+            </div>
+
+            <div className="info-section">
+              <h4>Configurações</h4>
+              <div className="info-list">
+                <div className="info-item">
+                  <span>Modo:</span>
+                  <strong>
+                    {room.config?.gameMode === "classic" ? "Clássico" :
+                     room.config?.gameMode === "chaos_items" ? "Caos c/ Itens" :
+                     room.config?.gameMode === "time_attack" ? "Contra o Tempo" : "Padrão"}
+                  </strong>
+                </div>
+                <div className="info-item">
+                  <span>Tempo Máx:</span>
+                  <strong>{room.config?.roundTimeMax || 30}s</strong>
+                </div>
+                <div className="info-item">
+                  <span>Vidas:</span>
+                  <strong>{room.config?.maxLives || 3} ❤️</strong>
+                </div>
+                <div className="info-item">
+                  <span>Sílaba/Letra:</span>
+                  <strong>{room.config?.syllableMode ? "Sílaba" : "Letra Única"}</strong>
+                </div>
+              </div>
+            </div>
+
+            <div className="info-section">
+              <h4>Dica Premium</h4>
+              <p>Evite repetir palavras. Fique atento ao cronômetro visual da bomba no centro da tela e seja rápido!</p>
+            </div>
+          </div>
+        </aside>
+
         {/* Painel do Jogo / Arena Central */}
         <main className="game-arena-wrapper">
           <div className="arena-circle-container">
@@ -462,6 +524,8 @@ export default function GameRoom({ socket, roomCode, room, playerId, onLeave }) 
                               placeholder="Sua vez! Digite..."
                               autoFocus
                               value={wordInput}
+                              onFocus={() => setIsInputFocused(true)}
+                              onBlur={() => setIsInputFocused(false)}
                               onChange={(e) => {
                                 setWordInput(e.target.value);
                                 if (wordFeedback) {
