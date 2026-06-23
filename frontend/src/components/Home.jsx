@@ -302,16 +302,15 @@ export default function Home({ onCreateRoom, onJoinRoom, error, onAchievementUnl
               <h3>Aparência do Jogador</h3>
             </div>
             
-            <div style={{ display: "flex", flexDirection: "column", gap: "15px" }}>
+            <div className="avatar-settings-container">
               {/* Tipo de Avatar */}
               <div className="form-item">
-                <label style={{ fontSize: "0.85rem", fontWeight: "600", color: "var(--text-muted)", display: "block", marginBottom: "8px" }}>
+                <label className="avatar-selection-label">
                   Escolha o Tipo de Avatar:
                 </label>
-                <div style={{ display: "flex", gap: "10px" }}>
+                <div className="avatar-type-buttons">
                   <button
                     type="button"
-                    style={{ flex: 1, fontSize: "0.95rem", padding: "10px" }}
                     className={`btn ${avatarType === "emoji" ? "btn-primary" : "btn-secondary"}`}
                     onClick={() => {
                       setAvatarType("emoji");
@@ -322,7 +321,6 @@ export default function Home({ onCreateRoom, onJoinRoom, error, onAchievementUnl
                   </button>
                   <button
                     type="button"
-                    style={{ flex: 1, fontSize: "0.95rem", padding: "10px" }}
                     className={`btn ${avatarType === "photo" ? "btn-primary" : "btn-secondary"}`}
                     onClick={() => {
                       setAvatarType("photo");
@@ -335,7 +333,7 @@ export default function Home({ onCreateRoom, onJoinRoom, error, onAchievementUnl
               </div>
 
               {/* Configuração específica do tipo de avatar */}
-              <div style={{ marginTop: "10px", paddingTop: "15px", borderTop: "1px solid var(--panel-border)" }}>
+              <div className="avatar-selection-wrapper">
                 {avatarType === "emoji" && (
                   <div className="avatar-selection-emoji">
                     <label style={{ fontSize: "0.85rem", color: "var(--text-muted)", display: "block", marginBottom: "10px" }}>
@@ -346,36 +344,19 @@ export default function Home({ onCreateRoom, onJoinRoom, error, onAchievementUnl
                         <button
                           key={em}
                           type="button"
-                          style={{
-                            fontSize: "1.4rem",
-                            padding: "6px",
-                            background: avatarValue === em ? "var(--neon-pink)" : "var(--bg-darker)",
-                            border: "1px solid var(--panel-border)",
-                            borderRadius: "6px",
-                            cursor: "pointer",
-                            transition: "all 0.2s ease"
-                          }}
+                          className={`avatar-emoji-btn ${avatarValue === em ? "active" : ""}`}
                           onClick={() => setAvatarValue(em)}
                         >
                           {em}
                         </button>
                       ))}
                     </div>
-                    <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
-                      <span style={{ fontSize: "0.85rem", color: "var(--text-muted)" }}>Emoji Customizado:</span>
+                    <div className="custom-emoji-row">
+                      <span className="custom-emoji-label">Emoji Customizado:</span>
                       <input
                         type="text"
                         maxLength="2"
-                        style={{
-                          width: "60px",
-                          textAlign: "center",
-                          fontSize: "1.2rem",
-                          padding: "6px",
-                          background: "var(--bg-darker)",
-                          border: "2px solid var(--panel-border)",
-                          borderRadius: "6px",
-                          color: "#fff"
-                        }}
+                        className="custom-emoji-input"
                         value={avatarValue}
                         onChange={(e) => {
                           const val = e.target.value.trim();
@@ -402,17 +383,7 @@ export default function Home({ onCreateRoom, onJoinRoom, error, onAchievementUnl
                         return (
                           <div
                             key={avatar.name}
-                            style={{
-                              width: "60px",
-                              height: "60px",
-                              borderRadius: "10px",
-                              border: `2px solid ${isActive ? "var(--neon-pink)" : "var(--panel-border)"}`,
-                              boxShadow: isActive ? "0 0 8px var(--neon-pink-glow)" : "none",
-                              overflow: "hidden",
-                              cursor: "pointer",
-                              position: "relative",
-                              transition: "all 0.2s ease"
-                            }}
+                            className={`avatar-photo-btn ${isActive ? "active" : ""}`}
                             onClick={() => setAvatarValue(avatar.path)}
                           >
                             <img src={avatar.path} alt={avatar.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
@@ -421,21 +392,13 @@ export default function Home({ onCreateRoom, onJoinRoom, error, onAchievementUnl
                       })}
                     </div>
                     
-                    <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-                      <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
-                        <span style={{ fontSize: "0.85rem", color: "var(--text-muted)" }}>URL da Foto:</span>
+                    <div className="avatar-upload-wrapper">
+                      <div className="avatar-url-row">
+                        <span className="avatar-url-label">URL da Foto:</span>
                         <input
                           type="text"
                           placeholder="https://exemplo.com/foto.jpg"
-                          style={{
-                            flex: 1,
-                            padding: "8px 12px",
-                            background: "var(--bg-darker)",
-                            border: "1px solid var(--panel-border)",
-                            borderRadius: "6px",
-                            color: "#fff",
-                            fontSize: "0.85rem"
-                          }}
+                          className="avatar-url-input"
                           value={avatarValue.startsWith("data:") || avatarValue.startsWith("/assets/") ? "" : avatarValue}
                           onChange={(e) => {
                             const val = e.target.value.trim();
@@ -444,8 +407,8 @@ export default function Home({ onCreateRoom, onJoinRoom, error, onAchievementUnl
                         />
                       </div>
                       
-                      <div style={{ display: "flex", gap: "12px", alignItems: "center" }}>
-                        <span style={{ fontSize: "0.85rem", color: "var(--text-muted)" }}>Fazer Upload:</span>
+                      <div className="avatar-file-upload-row">
+                        <span className="avatar-file-upload-label">Fazer Upload:</span>
                         <input
                           type="file"
                           accept="image/*"
@@ -481,13 +444,12 @@ export default function Home({ onCreateRoom, onJoinRoom, error, onAchievementUnl
                         />
                         <label
                           htmlFor="avatar-file-upload"
-                          className="btn btn-secondary btn-sm"
-                          style={{ display: "inline-flex", alignItems: "center", gap: "6px", cursor: "pointer" }}
+                          className="btn btn-secondary btn-sm avatar-upload-trigger"
                         >
                           📤 Escolher Imagem
                         </label>
                         {avatarValue.startsWith("data:") && (
-                          <span style={{ fontSize: "0.75rem", color: "var(--neon-green)", fontWeight: "bold" }}>✔️ Upload concluído!</span>
+                          <span className="avatar-upload-success">✔️ Upload concluído!</span>
                         )}
                       </div>
                     </div>

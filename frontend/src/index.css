@@ -387,6 +387,130 @@ body {
     justify-content: center;
   }
 }
+
+.avatar-settings-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.avatar-selection-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  display: block;
+  margin-bottom: 8px;
+}
+.avatar-type-buttons {
+  display: flex;
+  gap: 10px;
+}
+.avatar-type-buttons button {
+  flex: 1;
+  font-size: 0.95rem;
+  padding: 10px;
+}
+@media (max-width: 768px) {
+  .avatar-type-buttons {
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+.avatar-selection-wrapper {
+  margin-top: 10px;
+  padding-top: 15px;
+  border-top: 1px solid var(--panel-border);
+}
+.avatar-emoji-btn {
+  font-size: 1.4rem;
+  padding: 6px;
+  background: var(--bg-darker);
+  border: 1px solid var(--panel-border);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.avatar-emoji-btn.active {
+  background: var(--neon-pink);
+  border-color: var(--neon-pink);
+}
+.custom-emoji-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.custom-emoji-label {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+.custom-emoji-input {
+  width: 60px;
+  text-align: center;
+  font-size: 1.2rem;
+  padding: 6px;
+  background: var(--bg-darker);
+  border: 2px solid var(--panel-border);
+  border-radius: 6px;
+  color: #fff;
+}
+.avatar-photo-btn {
+  width: 60px;
+  height: 60px;
+  border-radius: 10px;
+  border: 2px solid var(--panel-border);
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s ease;
+}
+.avatar-photo-btn.active {
+  border-color: var(--neon-pink);
+  box-shadow: 0 0 8px var(--neon-pink-glow);
+}
+.avatar-upload-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.avatar-url-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.avatar-url-label {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+.avatar-url-input {
+  flex: 1;
+  padding: 8px 12px;
+  background: var(--bg-darker);
+  border: 1px solid var(--panel-border);
+  border-radius: 6px;
+  color: #fff;
+  font-size: 0.85rem;
+}
+.avatar-file-upload-row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.avatar-file-upload-label {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+.avatar-upload-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+.avatar-upload-success {
+  font-size: 0.75rem;
+  color: var(--neon-green);
+  font-weight: bold;
+}
+
 /* Formulário de Configuração */
 .config-form {
   display: flex;
@@ -1975,5 +2099,252 @@ body {
   color: var(--text-dark) !important;
   box-shadow: 0 0 20px var(--neon-blue) !important;
   transform: translateY(-2px);
+}
+
+/* ==========================================
+   SISTEMA DE RESPONSIVIDADE MOBILE-FIRST & AJUSTES GERAIS
+   ========================================== */
+
+/* Regras globais de segurança para impedir estouros horizontais */
+html, body {
+  max-width: 100% !important;
+  overflow-x: hidden !important;
+}
+
+img, svg, canvas, input, select, textarea {
+  max-width: 100% !important;
+  box-sizing: border-box;
+}
+
+/* --- DISPOSITIVOS MÓVEIS (Até 768px) --- */
+@media (max-width: 768px) {
+  /* Home Container e Cards ocupando no máximo 95% da tela */
+  .home-container {
+    width: 95% !important;
+    max-width: 95% !important;
+    padding: 15px 0 !important;
+    margin: 0 auto !important;
+    gap: 15px !important;
+  }
+
+  .glass-card {
+    padding: 15px !important;
+    border-radius: 12px !important;
+  }
+
+  /* Formatar tudo em coluna única */
+  .form-row {
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+  }
+
+  /* Compactar as abas de navegação */
+  .home-tabs {
+    gap: 6px !important;
+  }
+  
+  .home-tabs button {
+    font-size: 0.8rem !important;
+    padding: 8px 10px !important;
+    gap: 4px !important;
+    flex-grow: 1;
+    justify-content: center;
+  }
+  
+  .home-tabs button svg {
+    width: 14px !important;
+    height: 14px !important;
+  }
+
+  .shop-sub-tabs button {
+    font-size: 0.76rem !important;
+    padding: 6px 8px !important;
+  }
+
+  /* Redução de fontes, cabeçalhos e botões */
+  .logo-section h1 {
+    font-size: 1.7rem !important;
+  }
+  .bomb-logo-icon {
+    font-size: 1.8rem !important;
+  }
+
+  .action-card h3 {
+    font-size: 1.2rem !important;
+  }
+  
+  .action-card p {
+    font-size: 0.85rem !important;
+    margin-bottom: 16px !important;
+  }
+
+  .btn {
+    padding: 10px 16px !important;
+    font-size: 0.88rem !important;
+  }
+  
+  .btn-lg {
+    padding: 12px 20px !important;
+    font-size: 0.95rem !important;
+  }
+
+  /* Otimização da Loja de Cosméticos */
+  .skins-grid {
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)) !important;
+    gap: 10px !important;
+  }
+  
+  .skin-card {
+    padding: 10px !important;
+    border-radius: 10px !important;
+  }
+  
+  .skin-preview-wrapper {
+    height: 70px !important;
+    margin-bottom: 6px !important;
+  }
+  
+  .skin-emoji {
+    font-size: 1.8rem !important;
+  }
+  
+  .skin-card h4 {
+    font-size: 0.85rem !important;
+    margin-bottom: 2px !important;
+  }
+  
+  .skin-desc {
+    font-size: 0.68rem !important;
+    margin-bottom: 10px !important;
+    line-height: 1.2 !important;
+  }
+  
+  .btn-shop {
+    padding: 6px 4px !important;
+    font-size: 0.72rem !important;
+  }
+
+  /* Compactação da Tabela de Rankings */
+  .ranking-table th, .ranking-table td {
+    padding: 8px 6px !important;
+    font-size: 0.75rem !important;
+  }
+  
+  .global-ranking-card h3 {
+    font-size: 1rem !important;
+  }
+  
+  .xp-bar-bg {
+    height: 6px !important;
+  }
+
+  /* Compactação do anúncio de tema de rodada */
+  .round-start-content {
+    padding: 20px 15px !important;
+    max-width: 95% !important;
+  }
+  
+  .announcement-theme {
+    font-size: 1.8rem !important;
+    margin-bottom: 12px !important;
+  }
+  
+  .announcement-badge {
+    padding: 4px 10px !important;
+    font-size: 0.75rem !important;
+    margin-bottom: 10px !important;
+  }
+
+  /* Arena de Jogo: elipse ajustada e compactação de cartas */
+  :root {
+    --ellipse-rx: 31% !important;
+    --ellipse-ry: 34% !important;
+    --card-width: 64px !important;
+    --card-height: 74px !important;
+    --card-half-width: 32px !important;
+    --card-half-height: 37px !important;
+  }
+  
+  .slot-avatar-frame {
+    width: 42px !important;
+    height: 42px !important;
+    margin-bottom: 22px !important;
+    border-width: 1.5px !important;
+  }
+  
+  .slot-avatar-emoji-val {
+    font-size: 1.6rem !important;
+  }
+  
+  .slot-label-capsule {
+    height: 32px !important;
+    border-radius: 6px !important;
+    width: 100% !important;
+  }
+  
+  .slot-name {
+    font-size: 0.65rem !important;
+  }
+  
+  .slot-score {
+    font-size: 0.6rem !important;
+  }
+
+  .center-card-wrapper {
+    width: 210px !important;
+    height: 210px !important;
+  }
+  
+  .center-bomb-container {
+    width: 65px !important;
+    height: 65px !important;
+  }
+  
+  .center-theme-text {
+    font-size: 0.95rem !important;
+  }
+  
+  .center-info-content {
+    gap: 4px !important;
+  }
+  
+  .letter-badge {
+    padding: 4px 10px !important;
+    font-size: 0.8rem !important;
+  }
+}
+
+/* --- TABLETS (769px a 1024px) --- */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .home-container {
+    width: 90% !important;
+    max-width: 90% !important;
+    padding: 25px 0 !important;
+  }
+  
+  .glass-card {
+    padding: 20px !important;
+  }
+  
+  .skins-grid {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)) !important;
+  }
+
+  :root {
+    --ellipse-rx: 36% !important;
+    --ellipse-ry: 35% !important;
+    --card-width: 80px !important;
+    --card-height: 90px !important;
+    --card-half-width: 40px !important;
+    --card-half-height: 45px !important;
+  }
+}
+
+/* --- DESKTOPS (Acima de 1024px) --- */
+@media (min-width: 1025px) {
+  .home-container {
+    width: 100% !important;
+    max-width: 1000px !important;
+  }
 }
 
