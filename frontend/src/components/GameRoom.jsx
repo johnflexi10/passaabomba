@@ -266,8 +266,12 @@ export default function GameRoom({ socket, roomCode, room, playerId, onLeave }) 
   }, [socket, soundEnabled]);
 
   useEffect(() => {
-    wordsEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [room.usedWords]);
+    // Só faz scroll quando o sidebar está aberto — evita que o browser
+    // mova o viewport lateral para alcançar o elemento fora da tela
+    if (isSidebarOpen) {
+      wordsEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" });
+    }
+  }, [room.usedWords, isSidebarOpen]);
 
   const roundId = room.currentRound !== undefined ? room.currentRound : room.currentTheme?.display;
 

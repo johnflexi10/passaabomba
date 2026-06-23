@@ -905,6 +905,8 @@ body {
   overflow-y: auto;
   overflow-x: hidden;
   max-width: 100%;
+  /* Âncora para position:absolute do sidebar no mobile */
+  position: relative;
 }
 
 .room-navbar {
@@ -971,6 +973,8 @@ body {
   border: 1px solid var(--panel-border);
   border-radius: 16px;
   background: hsla(240, 16%, 10%, 0.45);
+  /* Garante que o sidebar overflow:hidden funcione */
+  contain: layout;
 }
 
 .game-arena-wrapper {
@@ -1500,17 +1504,38 @@ body {
 
 @media (max-width: 768px) {
   .room-sidebar-panel {
-    position: absolute;
+    position: fixed;
     top: 0;
     right: 0;
-    height: 100%;
-    z-index: 100;
+    height: 100vh;
+    width: 85vw;
+    max-width: 300px;
+    z-index: 9999;
     box-shadow: -5px 0 25px rgba(0, 0, 0, 0.5);
+    /* Transição suave no painel aberto */
+    transform: translateX(0);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
   }
   .room-sidebar-panel.closed {
+    /* Empurra para fora da tela mas NÃO alarga o documento */
     transform: translateX(100%);
-    width: 300px; /* Mantém a largura para transicionar suave */
+    width: 85vw;
+    max-width: 300px;
     opacity: 0;
+    pointer-events: none;
+    /* Não deixa espaço no layout */
+    visibility: hidden;
+  }
+  /* Overlay escurecido quando sidebar aberto */
+  .room-sidebar-panel.open::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.5);
+    z-index: -1;
   }
 }
 
@@ -2369,13 +2394,23 @@ img, svg, canvas, input, select, textarea {
   }
 
   /* Remoção de altura mínima do PC e responsividade de layout da arena */
+  .gameroom-container {
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    max-width: 100vw !important;
+    position: relative !important;
+  }
   .room-layout-wrapper {
     min-height: auto !important;
     height: auto !important;
     flex-grow: 1 !important;
     display: flex !important;
     flex-direction: column !important;
-    overflow-y: auto !important;
+    overflow: hidden !important;
+    overflow-x: hidden !important;
+    overflow-y: hidden !important;
+    /* Sidebar fixo (position:fixed) não deve influenciar a largura do layout */
+    contain: layout !important;
   }
   .game-arena-wrapper {
     padding: 10px !important;
