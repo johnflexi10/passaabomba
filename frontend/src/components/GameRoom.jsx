@@ -374,7 +374,11 @@ export default function GameRoom({ socket, roomCode, room, playerId, onLeave }) 
 
   const playerLength = activePlayers.length;
   let playersCountClass = "players-count-sm";
-  if (playerLength >= 10) {
+  if (playerLength >= 18) {
+    playersCountClass = "players-count-xxl";
+  } else if (playerLength >= 14) {
+    playersCountClass = "players-count-xl";
+  } else if (playerLength >= 10) {
     playersCountClass = "players-count-lg";
   } else if (playerLength >= 6) {
     playersCountClass = "players-count-md";

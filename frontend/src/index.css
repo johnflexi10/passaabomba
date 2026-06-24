@@ -775,9 +775,9 @@ body {
   }
 }
 
-/* Dinâmica por Quantidade de Jogadores (Player Count Scaling) */
-/* 6 a 9 jogadores: Compactação Média */
+/* Dinâmica por Quantidade de Jogadores (Player Count Scaling - Desktop) */
 @media (min-width: 769px) {
+  /* 6 a 9 jogadores: Compactação Média */
   .players-count-md {
     --card-width: 90px;
     --card-height: 100px;
@@ -795,40 +795,8 @@ body {
   .players-count-md .slot-label-capsule {
     height: 38px;
   }
-}
-@media (max-width: 768px) {
-  .players-count-md {
-    --card-width: 68px;
-    --card-height: 80px;
-    --card-half-width: 34px;
-    --card-half-height: 40px;
-  }
-  .players-count-md .slot-avatar-frame {
-    width: 44px;
-    height: 44px;
-    margin-bottom: 24px;
-  }
-  .players-count-md .slot-avatar-emoji-val {
-    font-size: 1.7rem;
-  }
-  .players-count-md .slot-label-capsule {
-    height: 32px;
-    border-radius: 6px;
-  }
-  .players-count-md .slot-name {
-    font-size: 0.72rem;
-  }
-  .players-count-md .slot-score {
-    font-size: 0.65rem;
-  }
-  .players-count-md .ink-splat {
-    width: 46px;
-    height: 46px;
-  }
-}
 
-/* 10+ jogadores: Compactação Máxima e Ajuste de Elipse */
-@media (min-width: 769px) {
+  /* 10 a 13 jogadores: Compactação Compacta */
   .players-count-lg {
     --card-width: 75px;
     --card-height: 85px;
@@ -854,43 +822,59 @@ body {
   .players-count-lg .slot-score {
     font-size: 0.65rem;
   }
-}
-@media (max-width: 768px) {
-  .players-count-lg {
-    --card-width: 58px;
-    --card-height: 70px;
-    --card-half-width: 29px;
-    --card-half-height: 35px;
-    --ellipse-rx: 38%;
-    --ellipse-ry: 37%;
+
+  /* 14 a 17 jogadores: Compactação Extra */
+  .players-count-xl {
+    --card-width: 65px;
+    --card-height: 75px;
+    --card-half-width: 32.5px;
+    --card-half-height: 37.5px;
+    --ellipse-rx: 45%;
+    --ellipse-ry: 42%;
   }
-  .players-count-lg .slot-avatar-frame {
+  .players-count-xl .slot-avatar-frame {
     width: 36px;
     height: 36px;
     margin-bottom: 18px;
   }
-  .players-count-lg .slot-avatar-emoji-val {
+  .players-count-xl .slot-avatar-emoji-val {
     font-size: 1.4rem;
   }
-  .players-count-lg .slot-label-capsule {
+  .players-count-xl .slot-label-capsule {
     height: 26px;
-    border-radius: 4px;
   }
-  .players-count-lg .slot-name {
+  .players-count-xl .slot-name {
     font-size: 0.65rem;
   }
-  .players-count-lg .slot-score {
+  .players-count-xl .slot-score {
+    font-size: 0.6rem;
+  }
+
+  /* 18+ jogadores: Compactação Máxima */
+  .players-count-xxl {
+    --card-width: 55px;
+    --card-height: 65px;
+    --card-half-width: 27.5px;
+    --card-half-height: 32.5px;
+    --ellipse-rx: 46%;
+    --ellipse-ry: 44%;
+  }
+  .players-count-xxl .slot-avatar-frame {
+    width: 30px;
+    height: 30px;
+    margin-bottom: 14px;
+  }
+  .players-count-xxl .slot-avatar-emoji-val {
+    font-size: 1.2rem;
+  }
+  .players-count-xxl .slot-label-capsule {
+    height: 22px;
+  }
+  .players-count-xxl .slot-name {
+    font-size: 0.6rem;
+  }
+  .players-count-xxl .slot-score {
     display: none;
-  }
-  .players-count-lg .ink-splat {
-    width: 38px;
-    height: 38px;
-  }
-  .players-count-lg .slot-online-dot {
-    width: 4px;
-    height: 4px;
-    top: 2px;
-    left: 2px;
   }
 }
 
@@ -2571,6 +2555,101 @@ img, svg, canvas, input, select, textarea {
     font-size: 0.9rem !important;
     margin: 0 !important;
   }
+
+  /* Overrides baseados no número de jogadores para Mobile (max-width: 768px) */
+  .players-count-md {
+    --card-width: 58px !important;
+    --card-height: 44px !important;
+    --card-half-width: 29px !important;
+    --card-half-height: 22px !important;
+  }
+  .players-count-md .slot-avatar-frame {
+    width: 44px !important;
+    height: 44px !important;
+  }
+  .players-count-md .slot-avatar-emoji-val {
+    font-size: 1.7rem !important;
+  }
+  .players-count-md .slot-label-capsule {
+    top: 46px !important;
+    width: 64px !important;
+  }
+  .players-count-md .slot-name {
+    font-size: 10px !important;
+    max-width: 60px !important;
+  }
+
+  .players-count-lg {
+    --card-width: 52px !important;
+    --card-height: 40px !important;
+    --card-half-width: 26px !important;
+    --card-half-height: 20px !important;
+  }
+  .players-count-lg .slot-avatar-frame {
+    width: 40px !important;
+    height: 40px !important;
+  }
+  .players-count-lg .slot-avatar-emoji-val {
+    font-size: 1.5rem !important;
+  }
+  .players-count-lg .slot-label-capsule {
+    top: 42px !important;
+    width: 58px !important;
+  }
+  .players-count-lg .slot-name {
+    font-size: 9px !important;
+    max-width: 54px !important;
+  }
+
+  .players-count-xl {
+    --card-width: 44px !important;
+    --card-height: 34px !important;
+    --card-half-width: 22px !important;
+    --card-half-height: 17px !important;
+    --ellipse-rx: 37% !important;
+    --ellipse-ry: 37% !important;
+  }
+  .players-count-xl .slot-avatar-frame {
+    width: 34px !important;
+    height: 34px !important;
+  }
+  .players-count-xl .slot-avatar-emoji-val {
+    font-size: 1.3rem !important;
+  }
+  .players-count-xl .slot-label-capsule {
+    top: 36px !important;
+    width: 50px !important;
+  }
+  .players-count-xl .slot-name {
+    font-size: 8px !important;
+    max-width: 46px !important;
+  }
+
+  .players-count-xxl {
+    --card-width: 38px !important;
+    --card-height: 30px !important;
+    --card-half-width: 19px !important;
+    --card-half-height: 15px !important;
+    --ellipse-rx: 38% !important;
+    --ellipse-ry: 38% !important;
+  }
+  .players-count-xxl .slot-avatar-frame {
+    width: 30px !important;
+    height: 30px !important;
+  }
+  .players-count-xxl .slot-avatar-emoji-val {
+    font-size: 1.15rem !important;
+  }
+  .players-count-xxl .slot-label-capsule {
+    top: 32px !important;
+    width: 44px !important;
+    min-height: 15px !important;
+    padding: 1px 2px !important;
+  }
+  .players-count-xxl .slot-name {
+    font-size: 7.5px !important;
+    max-width: 40px !important;
+  }
 }
 
 /* --- MOBILE SLATE (Até 480px) --- */
@@ -2613,6 +2692,105 @@ img, svg, canvas, input, select, textarea {
     min-height: 120px !important;
     max-width: 165px !important;
     max-height: 165px !important;
+  }
+
+  /* Overrides baseados no número de jogadores para Compact Mobile (max-width: 480px) */
+  .players-count-md {
+    --card-width: 50px !important;
+    --card-height: 38px !important;
+    --card-half-width: 25px !important;
+    --card-half-height: 19px !important;
+  }
+  .players-count-md .slot-avatar-frame {
+    width: 38px !important;
+    height: 38px !important;
+  }
+  .players-count-md .slot-avatar-emoji-val {
+    font-size: 1.45rem !important;
+  }
+  .players-count-md .slot-label-capsule {
+    top: 40px !important;
+    width: 56px !important;
+  }
+  .players-count-md .slot-name {
+    font-size: 9px !important;
+    max-width: 52px !important;
+  }
+
+  .players-count-lg {
+    --card-width: 44px !important;
+    --card-height: 34px !important;
+    --card-half-width: 22px !important;
+    --card-half-height: 17px !important;
+  }
+  .players-count-lg .slot-avatar-frame {
+    width: 34px !important;
+    height: 34px !important;
+  }
+  .players-count-lg .slot-avatar-emoji-val {
+    font-size: 1.3rem !important;
+  }
+  .players-count-lg .slot-label-capsule {
+    top: 36px !important;
+    width: 50px !important;
+  }
+  .players-count-lg .slot-name {
+    font-size: 8px !important;
+    max-width: 46px !important;
+  }
+
+  .players-count-xl {
+    --card-width: 38px !important;
+    --card-height: 30px !important;
+    --card-half-width: 19px !important;
+    --card-half-height: 15px !important;
+    --ellipse-rx: 34% !important;
+    --ellipse-ry: 34% !important;
+  }
+  .players-count-xl .slot-avatar-frame {
+    width: 30px !important;
+    height: 30px !important;
+  }
+  .players-count-xl .slot-avatar-emoji-val {
+    font-size: 1.15rem !important;
+  }
+  .players-count-xl .slot-label-capsule {
+    top: 32px !important;
+    width: 44px !important;
+    min-height: 15px !important;
+    padding: 1px 2px !important;
+  }
+  .players-count-xl .slot-name {
+    font-size: 7px !important;
+    max-width: 40px !important;
+  }
+
+  .players-count-xxl {
+    --card-width: 34px !important;
+    --card-height: 26px !important;
+    --card-half-width: 17px !important;
+    --card-half-height: 13px !important;
+    --ellipse-rx: 35% !important;
+    --ellipse-ry: 35% !important;
+  }
+  .players-count-xxl .slot-avatar-frame {
+    width: 26px !important;
+    height: 26px !important;
+    border-width: 1.5px !important;
+  }
+  .players-count-xxl .slot-avatar-emoji-val {
+    font-size: 1.0rem !important;
+  }
+  .players-count-xxl .slot-label-capsule {
+    top: 28px !important;
+    width: 38px !important;
+    min-height: 12px !important;
+    padding: 0px 1px !important;
+    border-radius: 3px !important;
+  }
+  .players-count-xxl .slot-name {
+    font-size: 6.5px !important;
+    max-width: 36px !important;
   }
 }
 
@@ -2665,6 +2843,111 @@ img, svg, canvas, input, select, textarea {
   .ink-splat {
     width: 32px !important;
     height: 32px !important;
+  }
+
+  /* Overrides baseados no número de jogadores para Micro Mobile (max-width: 390px) */
+  .players-count-md {
+    --card-width: 44px !important;
+    --card-height: 34px !important;
+    --card-half-width: 22px !important;
+    --card-half-height: 17px !important;
+  }
+  .players-count-md .slot-avatar-frame {
+    width: 34px !important;
+    height: 34px !important;
+  }
+  .players-count-md .slot-avatar-emoji-val {
+    font-size: 1.3rem !important;
+  }
+  .players-count-md .slot-label-capsule {
+    top: 36px !important;
+    width: 50px !important;
+  }
+  .players-count-md .slot-name {
+    font-size: 8px !important;
+    max-width: 46px !important;
+  }
+
+  .players-count-lg {
+    --card-width: 38px !important;
+    --card-height: 30px !important;
+    --card-half-width: 19px !important;
+    --card-half-height: 15px !important;
+    --ellipse-rx: 32% !important;
+    --ellipse-ry: 32% !important;
+  }
+  .players-count-lg .slot-avatar-frame {
+    width: 30px !important;
+    height: 30px !important;
+  }
+  .players-count-lg .slot-avatar-emoji-val {
+    font-size: 1.1rem !important;
+  }
+  .players-count-lg .slot-label-capsule {
+    top: 32px !important;
+    width: 44px !important;
+    min-height: 15px !important;
+    padding: 1px 2px !important;
+  }
+  .players-count-lg .slot-name {
+    font-size: 7px !important;
+    max-width: 40px !important;
+  }
+
+  .players-count-xl {
+    --card-width: 34px !important;
+    --card-height: 26px !important;
+    --card-half-width: 17px !important;
+    --card-half-height: 13px !important;
+    --ellipse-rx: 33% !important;
+    --ellipse-ry: 33% !important;
+  }
+  .players-count-xl .slot-avatar-frame {
+    width: 26px !important;
+    height: 26px !important;
+    border-width: 1px !important;
+  }
+  .players-count-xl .slot-avatar-emoji-val {
+    font-size: 1.0rem !important;
+  }
+  .players-count-xl .slot-label-capsule {
+    top: 28px !important;
+    width: 38px !important;
+    min-height: 12px !important;
+    padding: 0px 1px !important;
+    border-radius: 3px !important;
+  }
+  .players-count-xl .slot-name {
+    font-size: 6.5px !important;
+    max-width: 36px !important;
+  }
+
+  .players-count-xxl {
+    --card-width: 30px !important;
+    --card-height: 22px !important;
+    --card-half-width: 15px !important;
+    --card-half-height: 11px !important;
+    --ellipse-rx: 34% !important;
+    --ellipse-ry: 34% !important;
+  }
+  .players-count-xxl .slot-avatar-frame {
+    width: 22px !important;
+    height: 22px !important;
+    border-width: 1px !important;
+  }
+  .players-count-xxl .slot-avatar-emoji-val {
+    font-size: 0.85rem !important;
+  }
+  .players-count-xxl .slot-label-capsule {
+    top: 24px !important;
+    width: 34px !important;
+    min-height: 11px !important;
+    padding: 0px 1px !important;
+    border-radius: 2px !important;
+  }
+  .players-count-xxl .slot-name {
+    font-size: 6px !important;
+    max-width: 32px !important;
   }
 }
 
