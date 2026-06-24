@@ -757,11 +757,14 @@ export default function GameRoom({ socket, roomCode, room, playerId, onLeave }) 
               const playerInkIndex = activePlayers.findIndex(p => p.id === player.id) % inkColors.length;
               const inkColor = inkColors[playerInkIndex >= 0 ? playerInkIndex : 0];
 
-              // Cálculo de posição elíptica responsiva por CSS + trig
+              // Cálculo de posição responsiva em formato de retângulo com bordas arredondadas (Squircle)
               const total = activePlayers.length || 1;
               const theta = (index / total) * 2.0 * Math.PI - Math.PI / 2.0;
-              const cosVal = Math.cos(theta).toFixed(4);
-              const sinVal = Math.sin(theta).toFixed(4);
+              const ct = Math.cos(theta);
+              const st = Math.sin(theta);
+              const r = 3.2; // Expoente de arredondamento (quanto maior, mais próximo de um retângulo reto)
+              const cosVal = (Math.sign(ct) * Math.pow(Math.abs(ct), 2 / r)).toFixed(4);
+              const sinVal = (Math.sign(st) * Math.pow(Math.abs(st), 2 / r)).toFixed(4);
 
               const isSelf = player.id === playerId;
               const style = {
