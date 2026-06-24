@@ -3177,3 +3177,141 @@ img, svg, canvas, input, select, textarea {
   }
 }
 
+/* Badges flutuantes no frame do avatar */
+.slot-avatar-frame {
+  position: relative;
+}
+
+.avatar-badge {
+  position: absolute;
+  z-index: 15;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.6));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  font-family: Arial, sans-serif;
+}
+
+.avatar-badge.host-badge {
+  top: -8px;
+  right: -8px;
+  font-size: 14px;
+  animation: crownFloat 2s infinite ease-in-out;
+}
+
+@keyframes crownFloat {
+  0%, 100% { transform: translateY(0) rotate(5deg); }
+  50% { transform: translateY(-3px) rotate(-5deg); }
+}
+
+.avatar-badge.shield-badge {
+  bottom: -4px;
+  right: -4px;
+  font-size: 12px;
+}
+
+.avatar-badge.bomb-badge {
+  top: -6px;
+  left: -6px;
+  font-size: 14px;
+  animation: bombPulse 1s infinite alternate;
+}
+
+@keyframes bombPulse {
+  from { transform: scale(0.9); }
+  to { transform: scale(1.1); }
+}
+
+.avatar-badge.edit-badge {
+  top: -6px;
+  left: -6px;
+  font-size: 10px;
+  background: var(--neon-pink);
+  border-radius: 50%;
+  width: 17px;
+  height: 17px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 6px var(--neon-pink-glow);
+}
+
+.avatar-badge.status-badge {
+  bottom: -2px;
+  left: -2px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(10, 10, 20, 0.9);
+}
+
+.avatar-badge.status-badge.online {
+  background-color: var(--neon-green);
+  box-shadow: 0 0 6px var(--neon-green);
+}
+
+.avatar-badge.status-badge.offline {
+  background-color: #555;
+}
+
+/* Responsividade dos badges flutuantes */
+@media (max-width: 768px) {
+  .avatar-badge.host-badge {
+    font-size: 12px;
+    top: -6px;
+    right: -6px;
+  }
+  .avatar-badge.shield-badge {
+    font-size: 10px;
+    bottom: -3px;
+    right: -3px;
+  }
+  .avatar-badge.bomb-badge {
+    font-size: 12px;
+    top: -5px;
+    left: -5px;
+  }
+  .avatar-badge.edit-badge {
+    font-size: 8px;
+    top: -5px;
+    left: -5px;
+    width: 14px;
+    height: 14px;
+  }
+  .avatar-badge.status-badge {
+    width: 6px;
+    height: 6px;
+    border-width: 1px;
+  }
+}
+
+@media (max-width: 480px) {
+  .avatar-badge.host-badge {
+    font-size: 10px;
+    top: -5px;
+    right: -5px;
+  }
+  .avatar-badge.shield-badge {
+    font-size: 9px;
+    bottom: -2px;
+    right: -2px;
+  }
+  .avatar-badge.bomb-badge {
+    font-size: 10px;
+    top: -4px;
+    left: -4px;
+  }
+  .avatar-badge.edit-badge {
+    font-size: 7px;
+    top: -4px;
+    left: -4px;
+    width: 12px;
+    height: 12px;
+  }
+  .avatar-badge.status-badge {
+    width: 5px;
+    height: 5px;
+  }
+}
+

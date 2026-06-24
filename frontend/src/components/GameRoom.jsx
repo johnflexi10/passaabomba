@@ -704,22 +704,13 @@ export default function GameRoom({ socket, roomCode, room, playerId, onLeave }) 
                     <div className="center-lobby-info">
                       <h2 style={{ fontSize: "clamp(1rem, 4vw, 1.4rem)", margin: 0 }}>Lobby</h2>
                       <p className="text-muted" style={{ fontSize: "clamp(0.65rem, 3vw, 0.85rem)", margin: 0 }}>Aguardando início...</p>
-                      <div style={{ display: "flex", gap: "6px", justifyContent: "center", marginTop: "6px", width: "100%" }}>
-                        <button 
-                          onClick={handleCopyInvite} 
-                          className="btn btn-secondary btn-sm" 
-                          style={{ fontSize: "clamp(0.65rem, 3vw, 0.8rem)", padding: "4px 10px", borderRadius: "6px", flex: 1 }}
-                        >
-                          {copied ? "Pronto! ✔️" : "🔗 Convidar"}
-                        </button>
-                        <button 
-                          onClick={() => setIsCosmeticsOpen(true)} 
-                          className="btn btn-primary btn-sm" 
-                          style={{ fontSize: "clamp(0.65rem, 3vw, 0.8rem)", padding: "4px 10px", borderRadius: "6px", flex: 1, background: "linear-gradient(135deg, var(--neon-pink), var(--neon-purple))", border: "none" }}
-                        >
-                          🎨 Visual
-                        </button>
-                      </div>
+                      <button 
+                        onClick={handleCopyInvite} 
+                        className="btn btn-secondary btn-sm" 
+                        style={{ marginTop: "6px", fontSize: "clamp(0.65rem, 3vw, 0.8rem)", padding: "4px 10px", borderRadius: "6px", width: "100%" }}
+                      >
+                        {copied ? "Copiado! ✔️" : "🔗 Convidar"}
+                      </button>
                       {(selectedCategory !== "" || selectedLetter !== "") && (
                         <div style={{ marginTop: "6px", width: "100%", overflow: "hidden" }}>
                           <span style={{ fontSize: "clamp(0.55rem, 2.5vw, 0.7rem)", color: "var(--text-muted)", display: "block" }}>Tema:</span>
@@ -795,16 +786,21 @@ export default function GameRoom({ socket, roomCode, room, playerId, onLeave }) 
                         {player.avatarValue || "👽"}
                       </span>
                     )}
+                    
+                    {/* Badges flutuantes no portrait do avatar */}
+                    {isPlayerHost && <span className="avatar-badge host-badge" title="Anfitrião">👑</span>}
+                    {player.hasShield && <span className="avatar-badge shield-badge" title="Escudo Ativo!">🛡️</span>}
+                    {hasBomb && <span className="avatar-badge bomb-badge" title="Com a bomba!">💣</span>}
+                    {isSelf && room.state !== "ACTIVE" && (
+                      <span className="avatar-badge edit-badge" title="Mudar Visual">🎨</span>
+                    )}
+                    <span className={`avatar-badge status-badge ${player.isConnected ? "online" : "offline"}`} title={player.isConnected ? "Conectado" : "Desconectado"}></span>
                   </div>
 
                   {/* Detalhes do jogador */}
                   <div className="slot-label-capsule">
-                    <span className="slot-online-dot" style={{ backgroundColor: player.isConnected ? "var(--neon-green)" : "#555" }}></span>
                     <span className="slot-name">
-                      {hasBomb && <span className="mini-bomb-icon" title="Com a bomba!">💣</span>}
-                      {player.hasShield && <span className="mini-shield-icon" title="Escudo Ativo!" style={{ marginRight: "3px" }}>🛡️</span>}
                       {player.name} {player.id === playerId ? " (Você)" : ""}
-                      {isPlayerHost && <span className="host-star" title="Anfitrião">👑</span>}
                     </span>
                     {player.title && player.title !== "none" && (
                       <span className="slot-title" style={{ fontSize: "0.62rem", color: "var(--neon-pink)", fontWeight: "bold", textTransform: "uppercase", letterSpacing: "0.5px", display: "block" }}>
