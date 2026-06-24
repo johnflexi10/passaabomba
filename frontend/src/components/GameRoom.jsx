@@ -626,41 +626,37 @@ export default function GameRoom({ socket, roomCode, room, playerId, onLeave }) 
                     </div>
                   ) : (
                     <div className="center-lobby-info">
-                      <h2>Lobby</h2>
-                      <p className="text-muted">Aguardando início...</p>
+                      <h2 style={{ fontSize: "clamp(1rem, 4vw, 1.4rem)", margin: 0 }}>Lobby</h2>
+                      <p className="text-muted" style={{ fontSize: "clamp(0.65rem, 3vw, 0.85rem)", margin: 0 }}>Aguardando início...</p>
                       <button 
                         onClick={handleCopyInvite} 
                         className="btn btn-secondary btn-sm" 
-                        style={{ marginTop: "8px", fontSize: "0.8rem", padding: "6px 12px", borderRadius: "6px" }}
+                        style={{ marginTop: "6px", fontSize: "clamp(0.65rem, 3vw, 0.8rem)", padding: "4px 10px", borderRadius: "6px" }}
                       >
-                        {copied ? "Link Copiado! ✔️" : "🔗 Copiar Link"}
+                        {copied ? "Copiado! ✔️" : "🔗 Convidar"}
                       </button>
-                      <div className="lobby-theme-announcement" style={{ marginTop: "12px" }}>
-                        <span className="theme-sub" style={{ fontSize: "0.75rem", display: "block" }}>Tema Selecionado:</span>
-                        <strong className="lobby-theme-highlight" style={{ color: "var(--neon-blue)", fontSize: "0.95rem" }}>
-                          {selectedCategory !== "" || selectedLetter !== "" ? (
-                            <>
-                              {selectedCategory !== "" ? (
-                                selectedCategory === "escola" ? "Objetos da Escola 🏫" :
-                                selectedCategory === "animais" ? "Animais 🦊" :
-                                selectedCategory === "frutas" ? "Frutas 🍉" :
-                                selectedCategory === "paises" ? "Países 🗺️" :
-                                selectedCategory === "filmes" ? "Filmes/Séries 🎬" :
-                                selectedCategory === "profissoes" ? "Profissões 💼" :
-                                selectedCategory === "nome" ? "Nomes 👤" :
-                                selectedCategory === "objeto" ? "Objetos 🎒" :
-                                selectedCategory === "cor" ? "Cores 🎨" :
-                                selectedCategory === "comida" ? "Comidas 🍕" : selectedCategory
-                              ) : "Qualquer Categoria 🎲"}
-                              {" - Letra: "}
-                              {selectedLetter !== "" ? selectedLetter.toUpperCase() : "Aleatória 🎲"}
-                            </>
-                          ) : (
-                            "Sorteio Aleatório 🎲"
-                          )}
-                        </strong>
-                      </div>
+                      {(selectedCategory !== "" || selectedLetter !== "") && (
+                        <div style={{ marginTop: "6px", width: "100%", overflow: "hidden" }}>
+                          <span style={{ fontSize: "clamp(0.55rem, 2.5vw, 0.7rem)", color: "var(--text-muted)", display: "block" }}>Tema:</span>
+                          <strong style={{ color: "var(--neon-blue)", fontSize: "clamp(0.6rem, 2.8vw, 0.85rem)", display: "block", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", maxWidth: "100%" }}>
+                            {selectedCategory !== "" ? (
+                              selectedCategory === "escola" ? "Escola 🏫" :
+                              selectedCategory === "animais" ? "Animais 🦊" :
+                              selectedCategory === "frutas" ? "Frutas 🍉" :
+                              selectedCategory === "paises" ? "Países 🗺️" :
+                              selectedCategory === "filmes" ? "Filmes 🎬" :
+                              selectedCategory === "profissoes" ? "Profissões 💼" :
+                              selectedCategory === "nome" ? "Nomes 👤" :
+                              selectedCategory === "objeto" ? "Objetos 🎒" :
+                              selectedCategory === "cor" ? "Cores 🎨" :
+                              selectedCategory === "comida" ? "Comidas 🍕" : selectedCategory
+                            ) : "Qualquer 🎲"}
+                            {selectedLetter !== "" ? ` · ${selectedLetter.toUpperCase()}` : " · 🎲"}
+                          </strong>
+                        </div>
+                      )}
                     </div>
+
                   )}
                 </div>
               </div>
