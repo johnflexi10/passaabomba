@@ -1161,6 +1161,16 @@ body {
   color: var(--neon-pink);
   border-color: var(--neon-pink);
 }
+/* Estado Provisório: regionalismo aceito com cautela (âmbar) */
+.word-feedback.provisional {
+  color: hsl(45, 100%, 60%);
+  border-color: hsl(45, 100%, 50%);
+  animation: slideUpFeedback 0.2s ease-out, provisionalPulse 1.2s ease-in-out infinite alternate;
+}
+@keyframes provisionalPulse {
+  from { box-shadow: 0 0 4px hsla(45, 100%, 50%, 0.3); }
+  to   { box-shadow: 0 0 12px hsla(45, 100%, 50%, 0.7); }
+}
 
 .word-corrector-bubble.center-corrector {
   position: absolute;

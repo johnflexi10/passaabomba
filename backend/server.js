@@ -2,7 +2,7 @@ const express = require("express");
 const http = require("http");
 const { Server } = require("socket.io");
 const cors = require("cors");
-const { validateWord, normalizeString, CATEGORIES, findCorrectionSuggestion } = require("./dictionary");
+const { validateWord, validateWordHybrid, savePendingWord, normalizeString, CATEGORIES, findCorrectionSuggestion } = require("./dictionary");
 const fs = require("fs");
 const path = require("path");
 
@@ -422,14 +422,14 @@ io.on("connection", (socket) => {
       });
     }
 
-    // Valida a palavra baseada nas regras do tema
-    const isValid = await validateWord(cleanInput, room.currentTheme.category, room.currentTheme.letter);
+    // Valida a palavra com o sistema híbrido de 3 níveis
+    const validationResult = await validateWordHybrid(cleanInput, room.currentTheme.category, room.currentTheme.letter);
     
-    if (!isValid) {
+    if (!validationResult.valid) {
       const suggestion = findCorrectionSuggestion(cleanInput, room.currentTheme.category, room.currentTheme.letter, room.usedWords);
       socket.emit("wordFeedback", { 
         success: false, 
-        reason: "Palavra inválida para o tema atual!", 
+        reason: validationResult.reason || "Palavra inválida para o tema atual!", 
         suggestion 
       });
       
@@ -442,9 +442,28 @@ io.on("connection", (socket) => {
       return;
     }
 
-    // Palavra correta!
+    // Palavra aceita (qualquer nível)
     player.score += 10;
-    player.coins += 5; // Moedas como recompensa
+    player.coins += 5;
+
+    // Feedback diferenciado por nível
+    let feedbackMsg = "Palavra aceita!";
+    if (validationResult.level === 2) {
+      feedbackMsg = "✅ Palavra confirmada pelo dicionário!";
+    } else if (validationResult.provisional) {
+      feedbackMsg = "⚠️ Regionalismo aceito provisoriamente!";
+      // Salva para aprendizado
+      savePendingWord(cleanInput, room.currentTheme.category);
+    }
+
+    socket.emit("wordFeedback", {
+      success: true,
+      provisional: !!validationResult.provisional,
+      level: validationResult.level || 1,
+      message: feedbackMsg
+    });
+
+    console.log("[Word] '" + cleanInput + "' aceita (Nível " + (validationResult.level || 1) + (validationResult.provisional ? ", provisório" : "") + ")");
 
     room.usedWords.push({ word: cleanInput, player: player.name });
 

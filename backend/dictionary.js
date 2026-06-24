@@ -1,4 +1,7 @@
 // Dicionário local para validação rápida de palavras por categoria
+// Sistema Híbrido de 3 Níveis — Inclusão Linguística Regional Brasileira
+const fs   = require("fs");
+const path = require("path");
 const CATEGORIES = {
   escola: [
     "borracha", "caderno", "lapis", "caneta", "estojo", "regua", "mochila", "livro", "bloco", "papel", 
@@ -162,16 +165,59 @@ const CATEGORIES = {
     "amestista", "fucsia", "mostarda", "oliva", "perola", "pessego", "terracota"
   ],
   comida: [
-    "arroz", "feijao", "macarrao", "carne", "frango", "peixe", "salada", "sopa", "pizza", "hamburguer", 
-    "batata", "pao", "queijo", "presunto", "ovo", "bolo", "torta", "sorvete", "chocolate", "biscoito", 
-    "bolacha", "fruta", "lasanha", "pastel", "coxinha", "empada", "pipoca", "brigadeiro", "pudim", 
-    "gelatina", "farofa", "strogonoff", "sushi", "guacamole", "taco", "yakisoba", "panqueca", 
-    "crepe", "waffle", "fondue", "azeitona", "alface", "alho", "cebola", "tomate", "cenoura", 
-    "churrasco", "linguica", "salsicha", "farofa", "pure", "omelete", "polenta", "nhoque", 
-    "misto-quente", "esfiha", "quibe", "croquete", "pao-de-queijo", "panetone", "rabanada", 
-    "pipoca", "amendoim", "castanha", "mel", "geleia", "iogurte", "manteiga", "requeijao"
+    "arroz","feijao","macarrao","carne","frango","peixe","salada","sopa","pizza","hamburguer",
+    "batata","pao","queijo","presunto","ovo","bolo","torta","sorvete","chocolate","biscoito",
+    "bolacha","fruta","lasanha","pastel","coxinha","empada","pipoca","brigadeiro","pudim",
+    "gelatina","farofa","strogonoff","sushi","guacamole","taco","yakisoba","panqueca",
+    "crepe","waffle","fondue","azeitona","alface","alho","cebola","tomate","cenoura",
+    "churrasco","linguica","salsicha","pure","omelete","polenta","nhoque",
+    "misto-quente","esfiha","quibe","croquete","pao-de-queijo","panetone","rabanada",
+    "amendoim","castanha","mel","geleia","iogurte","manteiga","requeijao",
+    // NORDESTE
+    "macaxeira","aipim","mandioca","mandioquinha","macaxeira-cozida","macaxeira-frita",
+    "carne-de-sol","carne-seca","charque","carne-do-sol","carne-de-bode","carne-de-fumeiro",
+    "buchada","sarapatel","panelada","mocoto","dobradinha","mocofava","rabada",
+    "baiao-de-dois","baiao","cuscuz","cuscuz-nordestino","cuscuz-de-milho",
+    "tapioca","beiju","beiju-de-coco","tapioca-de-queijo","beiju-seco",
+    "coalho","queijo-coalho","queijo-de-manteiga","queijo-de-bola","queijo-de-minas",
+    "mungunza","canjica","curau","pamonha","pamonha-de-queijo","bolo-de-milho",
+    "feijao-verde","feijao-de-corda","feijao-macassar","feijao-fradinho",
+    "arrumadinho","caldo-de-mocoto","bode-assado","galinha-caipira","galinha-de-cabidela",
+    "cartola","bolo-de-macaxeira","cocada","cocada-branca","cocada-queimada","rapadura","xerem",
+    "vatapa","caruru","acaraje","abara","moqueca","moqueca-de-peixe","moqueca-de-camarao",
+    "bobo-de-camarao","xinxim-de-galinha","peixada","caldeirada","marisco","sururu",
+    "bolo-de-rolo","cocada","paoca","pe-de-moleque",
+    // NORTE
+    "tacaca","pato-no-tucupi","pirarucu","pirarucu-de-casaca","acai","acai-na-tigela",
+    // SUL E SUDESTE
+    "barreado","galeto","arroz-carreteiro","chimarrao","mate","terere",
+    "virado-a-paulista","tutu-de-feijao","torresmo","pernil",
+    "linguica-toscana","pastel-de-feira","caldo-de-cana",
+    // CENTRO-OESTE
+    "empadao-goiano","sopa-paraguaia","arroz-com-pequi","pacu-assado","frango-com-pequi",
+    // GERAL
+    "pirao","feijoada","angu","galinhada","caldo-verde","caldo-de-feijao",
+    "bife","bife-acebolado","carne-assada","lingua-ao-molho","escondidinho",
+    "batata-frita","batata-doce","inhame","cara","milho-verde","milho-cozido",
+    "bolo-de-fuba","bolo-de-cenoura","bolo-de-chocolate","bolo-de-banana","bolo-de-limao",
+    "doce-de-leite","doce-de-coco","doce-de-abobora","goiabada","marmelada",
+    "feijao-tropeiro","farofa-de-manteiga","arroz-com-feijao","frango-assado","leitao-assado",
+    "ensopado","peixe-frito","file-de-peixe","ceviche","caldinho"
   ]
 };
+
+// ============================================================
+// LISTA NEGRA — Palavrões bloqueados
+// ============================================================
+const BLACKLIST = new Set([
+  "puta","puto","merda","bosta","cu","buceta","xota","xoxota","viado","viadao",
+  "corno","cornao","porra","caralho","fdp","arrombado","babaca","imbecil","cuzao",
+  "otario","desgraca","foder","foda","fodase","putaria","safada","safado",
+  "vagabundo","vagabunda","piranha","prostituta","pimba","rola"
+]);
+
+// Cache de resultados da API (evita consultas repetidas)
+const apiCache = new Map();
 
 // Remove acentos e converte para caixa baixa, limpando espaços
 function normalizeString(str) {
@@ -183,6 +229,21 @@ function normalizeString(str) {
     .replace(/[^a-z0-9\s-]/g, "")
     .trim();
 }
+
+// Detecta spam/sequências inválidas
+function isSpam(word) {
+  if (!word || word.length < 2) return true;
+  if (/^\d+$/.test(word)) return true;
+  if (/^(.)\1+$/.test(word)) return true;
+  if (!/[aeiouy]/.test(word)) return true;
+  const keyboardJunk = ["qwerty","asdfg","zxcvb","qazwsx","asdfjkl","poiuyt","lkjhgf","mnbvcx"];
+  for (const junk of keyboardJunk) { if (word.includes(junk)) return true; }
+  if (/[^aeiouy]{6,}/.test(word)) return true;
+  if (/^(.{1,3})\1{3,}$/.test(word)) return true;
+  return false;
+}
+
+function isBlacklisted(word) { return BLACKLIST.has(word); }
 
 /**
  * Valida se uma palavra pertence a uma determinada categoria e atende
@@ -255,6 +316,120 @@ async function validateWord(word, category, letter) {
   }
 
   return false;
+}
+
+// ============================================================
+// NÍVEL 2 — API WIKTIONARY PT
+// ============================================================
+async function checkWiktionary(word) {
+  if (apiCache.has(word)) return apiCache.get(word);
+  const url = "https://pt.wiktionary.org/w/api.php?action=query&titles=" + encodeURIComponent(word) + "&format=json&origin=*";
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 1200);
+  try {
+    const response = await fetch(url, { signal: controller.signal });
+    clearTimeout(timeoutId);
+    if (!response.ok) { apiCache.set(word, false); return false; }
+    const data = await response.json();
+    const pages = data && data.query && data.query.pages;
+    if (!pages) { apiCache.set(word, false); return false; }
+    const pageIds = Object.keys(pages);
+    if (pageIds.length === 0) { apiCache.set(word, false); return false; }
+    const exists = !pages[pageIds[0]].missing;
+    apiCache.set(word, exists);
+    return exists;
+  } catch (err) {
+    clearTimeout(timeoutId);
+    apiCache.set(word, false);
+    return false;
+  }
+}
+
+// ============================================================
+// NÍVEL 3 — PALAVRAS PENDENTES (aprendizado)
+// ============================================================
+const PENDING_FILE = path.join(__dirname, "pending_words.json");
+let pendingWords = {};
+function loadPendingWords() {
+  try {
+    if (fs.existsSync(PENDING_FILE)) {
+      pendingWords = JSON.parse(fs.readFileSync(PENDING_FILE, "utf8"));
+    }
+  } catch (e) { pendingWords = {}; }
+}
+loadPendingWords();
+
+function savePendingWord(word, category) {
+  const normWord = normalizeString(word);
+  const key = normWord + "|" + category;
+  if (!pendingWords[key]) {
+    pendingWords[key] = { word, category, uses: 0, approvals: 0, rejections: 0 };
+  }
+  pendingWords[key].uses += 1;
+  pendingWords[key].approvals += 1;
+  if (pendingWords[key].approvals >= 5 && CATEGORIES[category]) {
+    const already = CATEGORIES[category].some(w => normalizeString(w) === normWord);
+    if (!already) {
+      CATEGORIES[category].push(word);
+      console.log("[Dicionário] '" + word + "' auto-aprovada para '" + category + "' (>= 5 usos).");
+    }
+  }
+  fs.writeFile(PENDING_FILE, JSON.stringify(pendingWords, null, 2), () => {});
+}
+
+// ============================================================
+// VALIDAÇÃO HÍBRIDA — FUNÇÃO PRINCIPAL (3 NÍVEIS)
+// ============================================================
+async function validateWordHybrid(word, category, letter) {
+  if (!word) return { valid: false, reason: "Palavra vazia." };
+  const normalizedWord = normalizeString(word);
+  if (normalizedWord.length === 0) return { valid: false, reason: "Palavra inválida." };
+
+  // Restrição de letra inicial
+  if (letter) {
+    const normalizedLetter = normalizeString(letter);
+    if (!normalizedWord.startsWith(normalizedLetter)) {
+      return { valid: false, reason: 'A palavra deve começar com "' + letter.toUpperCase() + '".'};
+    }
+  }
+
+  // Palavrão → rejeição imediata
+  if (isBlacklisted(normalizedWord)) return { valid: false, reason: "Palavra não permitida." };
+
+  // Categoria aberta
+  if (!category || category === "qualquer") {
+    if (isSpam(normalizedWord)) return { valid: false, reason: "Sequência inválida." };
+    return { valid: true, level: 1 };
+  }
+
+  const categoryWords = CATEGORIES[category];
+
+  // Categoria customizada sem lista
+  if (!categoryWords) {
+    if (isSpam(normalizedWord)) return { valid: false, reason: "Sequência inválida." };
+    return { valid: true, level: 1 };
+  }
+
+  // NÍVEL 1: dicionário local
+  const existsLocal = categoryWords.some(w => normalizeString(w) === normalizedWord);
+  if (existsLocal) return { valid: true, level: 1 };
+
+  // NÍVEL 2a: IBGE (apenas nomes)
+  if (category === "nome") {
+    const isIBGE = await checkIBGEName(normalizedWord);
+    if (isIBGE) { categoryWords.push(word); return { valid: true, level: 2, source: "IBGE" }; }
+  }
+
+  // NÍVEL 2b: Wiktionary
+  const isWiki = await checkWiktionary(normalizedWord);
+  if (isWiki) { categoryWords.push(word); return { valid: true, level: 2, source: "Wiktionary" }; }
+
+  // NÍVEL 3: provisório
+  if (normalizedWord.length >= 4 && !isSpam(normalizedWord)) {
+    return { valid: true, level: 3, provisional: true };
+  }
+
+  return { valid: false, reason: "Palavra não encontrada para esta categoria." };
 }
 
 // Calcula distância Levenshtein para corretor ortográfico
@@ -333,8 +508,11 @@ function findCorrectionSuggestion(word, category, letter, usedWords) {
 
 module.exports = {
   CATEGORIES,
+  BLACKLIST,
   normalizeString,
-  validateWord,
+  validateWord,          // retrocompatível
+  validateWordHybrid,    // novo sistema híbrido de 3 níveis
+  savePendingWord,
   getEditDistance,
   findCorrectionSuggestion
 };

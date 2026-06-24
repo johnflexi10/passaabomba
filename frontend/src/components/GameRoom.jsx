@@ -194,7 +194,8 @@ export default function GameRoom({ socket, roomCode, room, playerId, onLeave }) 
 
     const onFeedback = (data) => {
       if (data.success) {
-        setWordFeedback({ success: true, message: "Palavra aceita!" });
+        const msg = data.message || "Palavra aceita!";
+        setWordFeedback({ success: true, provisional: !!data.provisional, message: msg });
         setWordInput("");
         setWordSuggestion(null);
         if (soundEnabled) audioService.playSuccess();
@@ -203,20 +204,20 @@ export default function GameRoom({ socket, roomCode, room, playerId, onLeave }) 
         if (typeof navigator !== "undefined" && navigator.vibrate) {
           navigator.vibrate(60);
         }
-        setTimeout(() => setWordFeedback(null), 1500);
+        setTimeout(() => setWordFeedback(null), data.provisional ? 3000 : 1500);
       } else {
         setWordFeedback({ success: false, message: data.reason });
-        setWordSuggestion(null); // Desativado a pedido do usuário (sem caixa de sugestões)
+        setWordSuggestion(null);
         if (soundEnabled) audioService.playFailure();
         
         // Habilita vibração física no celular se o navegador suportar
         if (typeof navigator !== "undefined" && navigator.vibrate) {
-          navigator.vibrate([100, 50, 100]); // Duas vibrações curtas para indicar erro
+          navigator.vibrate([100, 50, 100]);
         }
 
         setTimeout(() => {
           setWordFeedback(prev => prev && !prev.success ? null : prev);
-        }, 3000); // Reduzido para 3s para o texto de aviso sumir mais rápido
+        }, 3000);
       }
     };
 
@@ -534,7 +535,11 @@ export default function GameRoom({ socket, roomCode, room, playerId, onLeave }) 
                               }}
                             />
                             {wordFeedback && (
-                              <div className={`word-feedback center-feedback ${wordFeedback.success ? "success" : "error"}`}>
+                              <div className={`word-feedback center-feedback ${
+                                wordFeedback.success
+                                  ? (wordFeedback.provisional ? "provisional" : "success")
+                                  : "error"
+                              }`}>
                                 <span>{wordFeedback.message}</span>
                               </div>
                             )}
