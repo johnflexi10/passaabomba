@@ -29,6 +29,78 @@ export default function GameRoom({ socket, roomCode, room, playerId, onLeave }) 
   const [localSpeedMultiplier, setLocalSpeedMultiplier] = useState(1.0);
   const [autoRestartCountdown, setAutoRestartCountdown] = useState(3);
 
+  // Customização Visual em Tempo Real no Lobby
+  const [isCosmeticsOpen, setIsCosmeticsOpen] = useState(false);
+  const [purchasedSkins] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem("pab_purchasedSkins")) || ["classic"];
+    } catch {
+      return ["classic"];
+    }
+  });
+  const [purchasedEffects] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem("pab_purchasedEffects")) || ["classic"];
+    } catch {
+      return ["classic"];
+    }
+  });
+  const [purchasedTitles] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem("pab_purchasedTitles")) || ["none"];
+    } catch {
+      return ["none"];
+    }
+  });
+
+  const [activeSkin, setActiveSkin] = useState(() => localStorage.getItem("pab_activeSkin") || "classic");
+  const [activeEffect, setActiveEffect] = useState(() => localStorage.getItem("pab_activeEffect") || "classic");
+  const [activeTitle, setActiveTitle] = useState(() => localStorage.getItem("pab_activeTitle") || "none");
+
+  const SKINS_METADATA = {
+    classic: { name: "Clássica 💣", emoji: "💣", color: "gray" },
+    neon: { name: "Neon Vibes 🌸", emoji: "🌸", color: "#ff007f" },
+    ice: { name: "Gelo Glacial ❄️", emoji: "❄️", color: "#80deea" },
+    cyberpunk: { name: "Cyber Hack 👾", emoji: "👾", color: "#00ffcc" },
+    silent: { name: "Silenciosa 🥷", emoji: "🥷", color: "#888888" },
+    toxic: { name: "Tóxica ☣️", emoji: "☣️", color: "#76ff03" },
+    lava: { name: "Magma 🔥", emoji: "🌋", color: "#ff3700" },
+    golden: { name: "Ouro Real 👑", emoji: "👑", color: "#ffd700" }
+  };
+
+  const EFFECTS_METADATA = {
+    classic: { name: "Fogo 🔥", emoji: "🔥" },
+    confetti: { name: "Confete 🎉", emoji: "🎉" },
+    electric: { name: "Choque ⚡", emoji: "⚡" },
+    toxic: { name: "Tóxico ☣️", emoji: "☣️" },
+    volcano: { name: "Vulcão 🌋", emoji: "🌋" }
+  };
+
+  const TITLES_METADATA = {
+    none: { name: "Sem Título 🏷️", label: "🏷️ Sem Título" },
+    novato: { name: "Novato 🐣", label: "🐣 Novato" },
+    lexico: { name: "Léxico 📖", label: "📖 Léxico de Aço" },
+    veloz: { name: "Veloz ⚡", label: "⚡ Dedo Veloz" },
+    master: { name: "Master 💣", label: "💣 Bomba Master" },
+    imortal: { name: "Imortal 🏆", label: "🏆 Imortal" }
+  };
+
+  const handleSelectCosmetic = (type, id) => {
+    if (type === "skin") {
+      setActiveSkin(id);
+      localStorage.setItem("pab_activeSkin", id);
+      socket.emit("selectSkin", { roomCode, skinName: id, title: activeTitle, explosionEffect: activeEffect });
+    } else if (type === "effect") {
+      setActiveEffect(id);
+      localStorage.setItem("pab_activeEffect", id);
+      socket.emit("selectSkin", { roomCode, skinName: activeSkin, title: activeTitle, explosionEffect: id });
+    } else if (type === "title") {
+      setActiveTitle(id);
+      localStorage.setItem("pab_activeTitle", id);
+      socket.emit("selectSkin", { roomCode, skinName: activeSkin, title: id, explosionEffect: activeEffect });
+    }
+  };
+
   // Regressão visual da próxima rodada se o avanço automático estiver habilitado
   useEffect(() => {
     if (room.state === "EXPLODED" && room.config?.autoStartNextRound) {
@@ -632,13 +704,22 @@ export default function GameRoom({ socket, roomCode, room, playerId, onLeave }) 
                     <div className="center-lobby-info">
                       <h2 style={{ fontSize: "clamp(1rem, 4vw, 1.4rem)", margin: 0 }}>Lobby</h2>
                       <p className="text-muted" style={{ fontSize: "clamp(0.65rem, 3vw, 0.85rem)", margin: 0 }}>Aguardando início...</p>
-                      <button 
-                        onClick={handleCopyInvite} 
-                        className="btn btn-secondary btn-sm" 
-                        style={{ marginTop: "6px", fontSize: "clamp(0.65rem, 3vw, 0.8rem)", padding: "4px 10px", borderRadius: "6px" }}
-                      >
-                        {copied ? "Copiado! ✔️" : "🔗 Convidar"}
-                      </button>
+                      <div style={{ display: "flex", gap: "6px", justifyContent: "center", marginTop: "6px", width: "100%" }}>
+                        <button 
+                          onClick={handleCopyInvite} 
+                          className="btn btn-secondary btn-sm" 
+                          style={{ fontSize: "clamp(0.65rem, 3vw, 0.8rem)", padding: "4px 10px", borderRadius: "6px", flex: 1 }}
+                        >
+                          {copied ? "Pronto! ✔️" : "🔗 Convidar"}
+                        </button>
+                        <button 
+                          onClick={() => setIsCosmeticsOpen(true)} 
+                          className="btn btn-primary btn-sm" 
+                          style={{ fontSize: "clamp(0.65rem, 3vw, 0.8rem)", padding: "4px 10px", borderRadius: "6px", flex: 1, background: "linear-gradient(135deg, var(--neon-pink), var(--neon-purple))", border: "none" }}
+                        >
+                          🎨 Visual
+                        </button>
+                      </div>
                       {(selectedCategory !== "" || selectedLetter !== "") && (
                         <div style={{ marginTop: "6px", width: "100%", overflow: "hidden" }}>
                           <span style={{ fontSize: "clamp(0.55rem, 2.5vw, 0.7rem)", color: "var(--text-muted)", display: "block" }}>Tema:</span>
@@ -682,15 +763,18 @@ export default function GameRoom({ socket, roomCode, room, playerId, onLeave }) 
               const cosVal = Math.cos(theta).toFixed(4);
               const sinVal = Math.sin(theta).toFixed(4);
 
+              const isSelf = player.id === playerId;
               const style = {
                 left: `calc(50% + ${cosVal} * var(--ellipse-rx) - var(--card-half-width))`,
-                top: `calc(50% + ${sinVal} * var(--ellipse-ry) - var(--card-half-height))`
+                top: `calc(50% + ${sinVal} * var(--ellipse-ry) - var(--card-half-height))`,
+                cursor: isSelf ? "pointer" : "default"
               };
 
               return (
                 <div
                   key={player.id}
-                  className={`player-wrap-slot ${hasBomb ? "active-slot" : ""} ${player.isEliminated ? "elim-slot" : ""}`}
+                  className={`player-wrap-slot ${hasBomb ? "active-slot" : ""} ${player.isEliminated ? "elim-slot" : ""} ${isSelf ? "self-slot" : ""}`}
+                  onClick={isSelf ? () => setIsCosmeticsOpen(true) : undefined}
                   style={style}
                 >
                   <div className="slot-avatar-frame">
@@ -1010,6 +1094,90 @@ export default function GameRoom({ socket, roomCode, room, playerId, onLeave }) 
                 </button>
               )}
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Drawer de Customização Visual */}
+      {isCosmeticsOpen && (
+        <div className="cosmetics-drawer-overlay" onClick={() => setIsCosmeticsOpen(false)}>
+          <div className="cosmetics-drawer glass-card" onClick={(e) => e.stopPropagation()}>
+            <div className="drawer-header">
+              <h3>🎨 Personalizar Visual</h3>
+              <button className="btn-close" onClick={() => setIsCosmeticsOpen(false)}>✕</button>
+            </div>
+            
+            <div className="drawer-content">
+              {/* Seção Skins */}
+              <div className="drawer-section">
+                <h4>Skins de Bomba ({purchasedSkins.length})</h4>
+                <div className="cosmetics-horizontal-scroll">
+                  {purchasedSkins.map(id => {
+                    const meta = SKINS_METADATA[id] || { name: id, emoji: "💣" };
+                    const isActive = activeSkin === id;
+                    return (
+                      <button 
+                        key={id} 
+                        className={`cosmetic-item-btn ${isActive ? "active" : ""}`}
+                        onClick={() => handleSelectCosmetic("skin", id)}
+                      >
+                        <span className="cosmetic-emoji" style={{ color: meta.color }}>{meta.emoji}</span>
+                        <span className="cosmetic-name">{meta.name}</span>
+                        {isActive && <span className="active-badge">Equipado</span>}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Seção Efeitos */}
+              <div className="drawer-section">
+                <h4>Efeitos de Explosão ({purchasedEffects.length})</h4>
+                <div className="cosmetics-horizontal-scroll">
+                  {purchasedEffects.map(id => {
+                    const meta = EFFECTS_METADATA[id] || { name: id, emoji: "💥" };
+                    const isActive = activeEffect === id;
+                    return (
+                      <button 
+                        key={id} 
+                        className={`cosmetic-item-btn ${isActive ? "active" : ""}`}
+                        onClick={() => handleSelectCosmetic("effect", id)}
+                      >
+                        <span className="cosmetic-emoji">{meta.emoji}</span>
+                        <span className="cosmetic-name">{meta.name}</span>
+                        {isActive && <span className="active-badge">Equipado</span>}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Seção Títulos */}
+              <div className="drawer-section">
+                <h4>Títulos de Perfil ({purchasedTitles.length})</h4>
+                <div className="cosmetics-horizontal-scroll">
+                  {purchasedTitles.map(id => {
+                    const meta = TITLES_METADATA[id] || { name: id, label: "🏷️" };
+                    const isActive = activeTitle === id;
+                    return (
+                      <button 
+                        key={id} 
+                        className={`cosmetic-item-btn ${isActive ? "active" : ""}`}
+                        onClick={() => handleSelectCosmetic("title", id)}
+                      >
+                        <span className="cosmetic-emoji">🏷️</span>
+                        <span className="cosmetic-name">{meta.name}</span>
+                        {isActive && <span className="active-badge">Equipado</span>}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+            
+            <button className="btn btn-primary btn-block btn-confirm" onClick={() => setIsCosmeticsOpen(false)}>
+              Confirmar Visual
+            </button>
           </div>
         </div>
       )}
