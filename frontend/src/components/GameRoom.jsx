@@ -748,14 +748,11 @@ export default function GameRoom({ socket, roomCode, room, playerId, onLeave }) 
               const playerInkIndex = activePlayers.findIndex(p => p.id === player.id) % inkColors.length;
               const inkColor = inkColors[playerInkIndex >= 0 ? playerInkIndex : 0];
 
-              // Cálculo de posição responsiva em formato de retângulo com bordas arredondadas (Squircle)
+              // Cálculo de posição elíptica responsiva por CSS + trig
               const total = activePlayers.length || 1;
               const theta = (index / total) * 2.0 * Math.PI - Math.PI / 2.0;
-              const ct = Math.cos(theta);
-              const st = Math.sin(theta);
-              const r = 3.2; // Expoente de arredondamento (quanto maior, mais próximo de um retângulo reto)
-              const cosVal = (Math.sign(ct) * Math.pow(Math.abs(ct), 2 / r)).toFixed(4);
-              const sinVal = (Math.sign(st) * Math.pow(Math.abs(st), 2 / r)).toFixed(4);
+              const cosVal = Math.cos(theta).toFixed(4);
+              const sinVal = Math.sin(theta).toFixed(4);
 
               const isSelf = player.id === playerId;
               const style = {
@@ -846,25 +843,26 @@ export default function GameRoom({ socket, roomCode, room, playerId, onLeave }) 
               );
             })}
 
-            {/* ZONA 3 — Mensagens Flutuantes (abaixo do círculo, sem invadir avatares) */}
-            <div className="arena-message-layer">
-              {room.state === "ACTIVE" && room.lastWord && (
-                <div className="arena-msg-last-word">
-                  <strong>{room.lastWordPlayer}</strong> disse:{" "}
-                  <span className="last-word-val">"{room.lastWord}"</span> ✔️
-                </div>
-              )}
-              {room.state === "ACTIVE" && !isMyTurn && (
-                <div className="arena-msg-turn">
-                  Vez de <strong>{currentHolder.name || "Aguardando"}</strong> 💣
-                </div>
-              )}
-              {room.state === "ACTIVE" && isMyTurn && (
-                <div className="arena-msg-turn arena-msg-my-turn">
-                  💣 Sua vez!
-                </div>
-              )}
-            </div>
+          </div>
+
+          {/* ZONA 3 — Camada de Mensagens (abaixo da arena, sem invadir avatares) */}
+          <div className="arena-message-layer">
+            {room.state === "ACTIVE" && room.lastWord && (
+              <div className="arena-msg-last-word">
+                <strong>{room.lastWordPlayer}</strong> disse:{" "}
+                <span className="last-word-val">"{room.lastWord}"</span> ✔️
+              </div>
+            )}
+            {room.state === "ACTIVE" && !isMyTurn && (
+              <div className="arena-msg-turn">
+                Vez de <strong>{currentHolder.name || "Aguardando"}</strong> 💣
+              </div>
+            )}
+            {room.state === "ACTIVE" && isMyTurn && (
+              <div className="arena-msg-turn arena-msg-my-turn">
+                💣 Sua vez!
+              </div>
+            )}
           </div>
 
           {/* Rodapé: Controles de início/próxima rodada para o Host (apenas fora do ACTIVE) */}

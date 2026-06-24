@@ -1385,17 +1385,15 @@ body {
    Aparece abaixo do círculo, nunca sobre avatares
    ============================================ */
 .arena-message-layer {
-  position: absolute;
-  bottom: 14px;
-  left: 50%;
-  transform: translateX(-50%);
+  position: relative;
+  margin: 15px auto 5px auto;
   z-index: 20;
-  width: 84%;
-  max-width: 300px;
+  width: 90%;
+  max-width: 320px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
   pointer-events: none;
   text-align: center;
 }
